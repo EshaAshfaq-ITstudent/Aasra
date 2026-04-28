@@ -1,0 +1,47 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Light circular background -->
+    <path
+        android:fillColor="#FCE4EC"
+        android:pathData="M24,24m-20,0a20,20 0,1 1,40 0a20,20 0,1 1,-40 0"/>
+
+    <!-- Clipboard Base -->
+    <path
+        android:fillColor="#8D8176"
+        android:pathData="M14,14h18v20h-18z"
+        android:strokeColor="#8D8176"
+        android:strokeWidth="1"/>
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M16,16h14v16h-14z"/>
+    <!-- Top Clip -->
+    <path
+        android:fillColor="#E6A15C"
+        android:pathData="M20,12h6a1,1 0,0 1,1 1v2h-8v-2a1,1 0,0 1,1 -1z"/>
+
+    <!-- Overlapping Document -->
+    <path
+        android:fillColor="#F5F5F5"
+        android:pathData="M22,18h14v18h-14z"
+        android:strokeColor="#D1D1D1"
+        android:strokeWidth="0.5"/>
+    <path
+        android:fillColor="#819B81"
+        android:pathData="M24,22m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0M22,27c0,-1 1,-2 2,-2s2,1 2,2"/>
+    <path
+        android:strokeColor="#D1D1D1"
+        android:strokeWidth="1"
+        android:pathData="M28,22h4M28,25h4M24,30h10"/>
+
+    <!-- Red X Badge -->
+    <path
+        android:fillColor="#E57373"
+        android:pathData="M36,36m-7,0a7,7 0,1 1,14 0a7,7 0,1 1,-14 0"/>
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M33,33l6,6M39,33l-6,6"/>
+</vector>

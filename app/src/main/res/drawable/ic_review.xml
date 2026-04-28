@@ -1,0 +1,44 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="60dp"
+    android:height="60dp"
+    android:viewportWidth="60"
+    android:viewportHeight="60">
+    <!-- Background Papers -->
+    <path
+        android:fillColor="#E8D5C4"
+        android:pathData="M15,10h25v35h-25z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <path
+        android:fillColor="#F5E6D3"
+        android:pathData="M10,15h25v35h-25z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <!-- Paper lines -->
+    <path
+        android:pathData="M14,20h17M14,24h17M14,28h17M14,32h10M14,36h10M14,40h10"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"/>
+    <!-- Magnifying Glass -->
+    <path
+        android:fillColor="#4DD0E1"
+        android:pathData="M35,40a10,10 0,1 0,20 0a10,10 0,1 0,-20 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <path
+        android:fillColor="#FFD54F"
+        android:pathData="M37.5,45.5l7,7l3,-3l-7,-7z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <!-- Person inside glass -->
+    <path
+        android:fillColor="#FFCCBC"
+        android:pathData="M45,40m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"/>
+    <path
+        android:fillColor="#FFB74D"
+        android:pathData="M40,48c0,-2 2,-4 5,-4s5,2 5,4"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"/>
+</vector>

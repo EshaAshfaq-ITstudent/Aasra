@@ -20,6 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PensionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TrackApplicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SubmitRequestActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -1,0 +1,56 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="60dp"
+    android:height="60dp"
+    android:viewportWidth="60"
+    android:viewportHeight="60">
+    <!-- Clipboard -->
+    <path
+        android:fillColor="#D1D9E6"
+        android:pathData="M15,12h30v40h-30z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <path
+        android:fillColor="#FF8A65"
+        android:pathData="M25,8h10a2,2 0,0 1,2 2v4h-14v-4a2,2 0,0 1,2 -2z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <!-- Checklist items -->
+    <path
+        android:fillColor="#00BFA5"
+        android:pathData="M20,22h6v6h-6z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M21,25l1.5,1.5l2.5,-3"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M30,24h10M30,27h10"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"/>
+
+    <path
+        android:fillColor="#00BFA5"
+        android:pathData="M20,34h6v6h-6z"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M21,37l1.5,1.5l2.5,-3"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1"/>
+    <path
+        android:pathData="M30,36h10M30,39h10"
+        android:strokeColor="#000000"
+        android:strokeWidth="1"/>
+
+    <!-- Large Check Badge -->
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M45,45m-10,0a10,10 0,1 1,20 0a10,10 0,1 1,-20 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="1.5"/>
+    <path
+        android:pathData="M40,45l3,3l7,-7"
+        android:strokeColor="#000000"
+        android:strokeWidth="2"/>
+</vector>
