@@ -11,8 +11,7 @@
     <!-- Left Brownish Card -->
     <path
         android:fillColor="#8D8176"
-        android:pathData="M10,18h12v18h-12z"
-        app:cornerRadius="2dp"/>
+        android:pathData="M10,18h12v18h-12z"/>
     <path
         android:fillColor="#FFFFFF"
         android:pathData="M11.5,19.5h9v15h-9z"/>
