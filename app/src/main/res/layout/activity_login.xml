@@ -4,91 +4,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/welcome_bg"
     tools:context=".LoginActivity">
 
-    <com.google.android.material.card.MaterialCardView
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/loginbackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvLogin"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        app:cardBackgroundColor="#CCEDEAE0"
-        app:cardCornerRadius="40dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="32dp"
+        app:cardBackgroundColor="#E6E2D8"
+        app:cardCornerRadius="36dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="30dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="32dp">
 
             <ImageView
                 android:id="@+id/ivLogo"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_submitted"
-                app:tint="#6D8252" />
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/aasra" />
 
             <TextView
                 android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Aasra"
-                android:textColor="#6D8252"
-                android:textSize="28sp"
+                android:textColor="#4F6D4C"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvCnicLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="CNIC"
-                android:textColor="#757575"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
+            <!-- CNIC Number Input -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_faq_item"
+                android:layout_height="54dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/bg_login_input"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/ic_verification"
-                    app:tint="#00A651" />
+                    app:tint="#00965E" />
 
                 <EditText
                     android:id="@+id/etCnic"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
                     android:background="@null"
-                    android:hint="XXXXX-XXXXX-XX"
+                    android:hint="CNIC Number"
                     android:inputType="number"
-                    android:textSize="16sp" />
+                    android:textColor="#333333"
+                    android:textSize="17sp" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="#FF8A65"
-                android:text="Log In ->"
+                android:layout_height="54dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/get_started_btn_bg"
+                android:text="Log In →"
                 android:textAllCaps="false"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="16dp" />
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -99,21 +105,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="If not registered yet,\nthen "
+                    android:text="If not registered yet, then "
                     android:textColor="#757575"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tvClickHere"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="click here"
-                    android:textColor="#00A651"
-                    android:textSize="16sp"
+                    android:textColor="#00965E"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

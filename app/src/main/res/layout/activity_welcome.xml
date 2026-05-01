@@ -2,114 +2,104 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/welcome_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/welcome_bg"
     tools:context=".WelcomeActivity">
 
-    <!-- English/Urdu Toggle -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/bg_faq_item"
-        android:orientation="horizontal"
-        android:padding="4dp"
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/loginbackground"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_step_active"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="4dp"
-            android:text="ENG"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="4dp"
-            android:text="اردو"
-            android:textColor="@color/text_primary"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvWelcome"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        app:cardBackgroundColor="#CCEDEAE0"
-        app:cardCornerRadius="40dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="32dp"
+        app:cardBackgroundColor="#E6E2D8"
+        app:cardCornerRadius="36dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="30dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="32dp">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="80dp"
-                android:src="@drawable/ic_submitted"
-                app:tint="#6D8252" />
+                android:id="@+id/ivLogo"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/aasra" />
 
             <TextView
+                android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Aasra"
-                android:textColor="#6D8252"
+                android:textColor="#4F6D4C"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvTagline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Aasra – Pension Made Simple"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp" />
+                android:textColor="#757575"
+                android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/tvWelcomeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Welcome To Aasra"
-                android:textColor="@color/text_primary"
+                android:textColor="#555555"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
+                android:lineSpacingExtra="2dp"
                 android:text="From application to resolution,\nAasra makes pension and support\nrequests easy and transparent for seniors."
-                android:textColor="@color/text_secondary"
+                android:textColor="#757575"
                 android:textSize="14sp" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnGetStarted"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="32dp"
-                android:backgroundTint="@color/accent_orange"
-                android:text="Get Started ->"
+                android:layout_height="54dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/get_started_btn_bg"
+                android:text="Get Started →"
                 android:textAllCaps="false"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="16dp" />
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

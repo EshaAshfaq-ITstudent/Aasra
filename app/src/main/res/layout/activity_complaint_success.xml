@@ -8,6 +8,21 @@
     android:background="@color/background_light"
     tools:context=".ComplaintSuccessActivity">
 
+    <!-- Softened Background Image -->
+    <ImageView
+        android:id="@+id/ivBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/loginbackground"
+        android:alpha="0.5" />
+
+    <!-- Soft Overlay -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1A000000" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -186,7 +201,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/faq_item_bg"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -204,7 +219,7 @@
                 android:layout_height="28dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_help"
-                app:tint="@color/text_primary" />
+                app:tint="@color/text_secondary" />
 
             <ImageView
                 android:id="@+id/navSettings"
@@ -212,7 +227,7 @@
                 android:layout_height="28dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_settings"
-                app:tint="@color/text_primary" />
+                app:tint="@color/text_secondary" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

@@ -7,16 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Softened Background -->
     <ImageView
         android:id="@+id/ivBackground"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/loginbackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:alpha="0.6" />
+
+    <!-- Dark Overlay for better contrast -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#33000000" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvWelcome"

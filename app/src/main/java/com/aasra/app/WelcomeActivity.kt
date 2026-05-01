@@ -14,16 +14,21 @@ class WelcomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_welcome)
 
-        // Using android.R.id.content to avoid NullPointerException
-        val mainView = findViewById<android.view.View>(android.R.id.content)
-        ViewCompat.setOnApplyWindowInsetsListener(mainView) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        // Insets handling to avoid overlapping with status bar
+        val rootLayout = findViewById<android.view.View>(R.id.welcome_main)
+        if (rootLayout != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(rootLayout) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                insets
+            }
         }
 
-        findViewById<Button>(R.id.btnGetStarted)?.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+        // Login Activity open karne ke liye listener
+        val btnGetStarted = findViewById<Button>(R.id.btnGetStarted)
+        btnGetStarted?.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 }
