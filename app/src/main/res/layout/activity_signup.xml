@@ -78,12 +78,13 @@
                     android:layout_marginStart="12dp"
                     android:background="@null"
                     android:hint="Full Name"
+                    android:textColorHint="#666666"
                     android:inputType="textPersonName"
                     android:textColor="#333333"
                     android:textSize="17sp" />
             </LinearLayout>
 
-            <!-- Phone Number Input -->
+            <!-- Phone Number Input with Flag and Prefix -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
@@ -93,11 +94,19 @@
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
 
-                <ImageView
-                    android:layout_width="24dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🇵🇰 +92"
+                    android:textColor="#333333"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="1dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_phone"
-                    app:tint="#00965E" />
+                    android:layout_marginStart="12dp"
+                    android:background="#CCCCCC" />
 
                 <EditText
                     android:id="@+id/etPhone"
@@ -105,8 +114,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
                     android:background="@null"
-                    android:hint="Phone Number"
+                    android:hint="300 1234567"
+                    android:textColorHint="#666666"
                     android:inputType="phone"
+                    android:maxLength="10"
                     android:textColor="#333333"
                     android:textSize="17sp" />
             </LinearLayout>
@@ -124,7 +135,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_person"
+                    android:src="@drawable/ic_verification"
                     app:tint="#00965E" />
 
                 <EditText
@@ -133,8 +144,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
                     android:background="@null"
-                    android:hint="CNIC Number"
+                    android:hint="CNIC Number (13 digits)"
+                    android:textColorHint="#666666"
                     android:inputType="number"
+                    android:maxLength="13"
                     android:textColor="#333333"
                     android:textSize="17sp" />
             </LinearLayout>

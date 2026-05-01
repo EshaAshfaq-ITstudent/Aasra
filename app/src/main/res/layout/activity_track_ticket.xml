@@ -75,11 +75,13 @@
                             android:padding="16dp">
 
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ticket ID" android:textColor="@color/text_primary" android:textSize="15sp" android:textStyle="bold" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#ASR-458921" android:textColor="@color/text_secondary" android:textSize="15sp" />
+                            <TextView android:id="@+id/tvTicketIdValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="#ASR-458921" android:textColor="@color/text_secondary" android:textSize="15sp" />
+
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="Issue Type" android:textColor="@color/text_primary" android:textSize="15sp" android:textStyle="bold" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Other Issue" android:textColor="@color/text_secondary" android:textSize="15sp" />
+                            <TextView android:id="@+id/tvIssueTypeValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Other Issue" android:textColor="@color/text_secondary" android:textSize="15sp" />
+
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:text="Submitted On" android:textColor="@color/text_primary" android:textSize="15sp" android:textStyle="bold" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="25 Jan 2026" android:textColor="@color/text_secondary" android:textSize="15sp" />
+                            <TextView android:id="@+id/tvSubmittedOnValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="25 Jan 2026" android:textColor="@color/text_secondary" android:textSize="15sp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -87,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
-                        android:text="Application Status"
+                        android:text="Ticket Status"
                         android:textColor="@color/text_primary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -100,26 +102,29 @@
                         android:orientation="vertical">
 
                         <!-- Step 1: Received -->
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
-                            <View android:layout_width="16dp" android:layout_height="16dp" android:background="@drawable/ic_radio_button_checked" app:tint="#00A651" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Received" android:textColor="@color/text_primary" android:textSize="16sp" android:textStyle="bold" />
+                        <LinearLayout android:id="@+id/stepReceived" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                            <ImageView android:id="@+id/icReceived" android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_radio_button_checked" app:tint="#00A651" />
+                            <TextView android:id="@+id/tvReceivedTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Received" android:textColor="@color/text_primary" android:textSize="16sp" android:textStyle="bold" />
                         </LinearLayout>
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="7dp" android:orientation="horizontal">
-                            <View android:layout_width="2dp" android:layout_height="40dp" android:background="@color/black" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginTop="8dp" android:text="We have received your request" android:textColor="@color/text_secondary" android:textSize="13sp" />
+                            <View android:id="@+id/line1" android:layout_width="2dp" android:layout_height="40dp" android:background="@color/black" />
+                            <TextView android:id="@+id/tvReceivedDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginTop="8dp" android:text="We have received your request" android:textColor="@color/text_secondary" android:textSize="13sp" />
                         </LinearLayout>
 
                         <!-- Step 2: Under Review -->
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
-                            <View android:layout_width="16dp" android:layout_height="16dp" android:background="@drawable/ic_radio_button_checked" app:tint="#FFD700" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Under Review" android:textColor="@color/text_primary" android:textSize="16sp" />
+                        <LinearLayout android:id="@+id/stepUnderReview" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                            <ImageView android:id="@+id/icUnderReview" android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_radio_button_checked" app:tint="#BDBDBD" />
+                            <TextView android:id="@+id/tvUnderReviewTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Under Review" android:textColor="@color/text_primary" android:textSize="16sp" />
                         </LinearLayout>
-                        <View android:layout_width="2dp" android:layout_height="40dp" android:layout_marginStart="7dp" android:background="#BDBDBD" />
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="7dp" android:orientation="horizontal">
+                            <View android:id="@+id/line2" android:layout_width="2dp" android:layout_height="40dp" android:background="#BDBDBD" />
+                            <TextView android:id="@+id/tvUnderReviewDesc" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginTop="8dp" android:text="Agent is looking into your issue" android:textColor="@color/text_secondary" android:textSize="13sp" android:visibility="gone"/>
+                        </LinearLayout>
 
                         <!-- Step 3: Resolved -->
-                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
-                            <View android:layout_width="16dp" android:layout_height="16dp" android:background="@drawable/ic_radio_button_checked" app:tint="#BDBDBD" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Resolved" android:textColor="@color/text_secondary" android:textSize="16sp" />
+                        <LinearLayout android:id="@+id/stepResolved" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+                            <ImageView android:id="@+id/icResolved" android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_radio_button_checked" app:tint="#BDBDBD" />
+                            <TextView android:id="@+id/tvResolvedTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:text="Resolved" android:textColor="@color/text_secondary" android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
 

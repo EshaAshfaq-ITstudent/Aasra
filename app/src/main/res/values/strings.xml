@@ -4,4 +4,12 @@
     <string name="welcome_to_aasra">Welcome To Aasra</string>
     <string name="welcome_description">From application to resolution,\nAasra makes pension and support\nrequests easy and transparent for seniors.</string>
     <string name="get_started">Get Started \u2192</string>
+
+    <string-array name="pension_types">
+        <item>Select Pension Type</item>
+        <item>Retirement Pension</item>
+        <item>Family Pension</item>
+        <item>Invalidity Pension</item>
+        <item>Superannuation Pension</item>
+    </string-array>
 </resources>

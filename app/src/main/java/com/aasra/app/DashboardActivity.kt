@@ -4,24 +4,41 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
 
 class DashboardActivity : AppCompatActivity() {
 
+    private lateinit var dbHelper: DatabaseHelper
+    private var userCnic: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
+        dbHelper = DatabaseHelper(this)
+        
+        // Receive User Info from Intent
+        val userName = intent.getStringExtra("USER_NAME") ?: "User"
+        userCnic = intent.getStringExtra("USER_CNIC")
+        
+        findViewById<TextView>(R.id.tvHelloName).text = "Hello, $userName"
+
+        // Load Application Status
+        updateApplicationStatus()
+
         // Navigation for Action Cards
         findViewById<MaterialCardView>(R.id.cardApplyPension).setOnClickListener {
-            startActivity(Intent(this, PensionActivity::class.java))
+            val intent = Intent(this, PensionActivity::class.java)
+            intent.putExtra("USER_CNIC", userCnic)
+            startActivity(intent)
         }
 
         findViewById<MaterialCardView>(R.id.cardTrackApp).setOnClickListener {
-            startActivity(Intent(this, TrackApplicationActivity::class.java))
+            val intent = Intent(this, TrackApplicationActivity::class.java)
+            intent.putExtra("USER_CNIC", userCnic)
+            startActivity(intent)
         }
 
         findViewById<MaterialCardView>(R.id.cardComplaint).setOnClickListener {
@@ -38,6 +55,34 @@ class DashboardActivity : AppCompatActivity() {
         }
         findViewById<ImageView>(R.id.navHelp).setOnClickListener {
             startActivity(Intent(this, HelpActivity::class.java))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh status when returning to dashboard
+        updateApplicationStatus()
+    }
+
+    private fun updateApplicationStatus() {
+        val tvUpdateTitle = findViewById<TextView>(R.id.tvUpdateTitle)
+        val tvUpdateId = findViewById<TextView>(R.id.tvUpdateId)
+        
+        val appData = userCnic?.let { dbHelper.getPensionApplication(it) }
+        
+        if (appData != null) {
+            tvUpdateTitle.text = "Pension Application"
+            tvUpdateId.text = "#${appData["appId"]} - ${appData["status"]}"
+            
+            // Allow clicking the status card to track
+            findViewById<View>(R.id.cardRecentUpdates).setOnClickListener {
+                val intent = Intent(this, TrackApplicationActivity::class.java)
+                intent.putExtra("USER_CNIC", userCnic)
+                startActivity(intent)
+            }
+        } else {
+            tvUpdateTitle.text = "No current application"
+            tvUpdateId.text = "Apply for pension to see status here."
         }
     }
 

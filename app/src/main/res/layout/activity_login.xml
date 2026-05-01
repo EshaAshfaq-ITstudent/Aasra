@@ -78,8 +78,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="12dp"
                     android:background="@null"
-                    android:hint="CNIC Number"
+                    android:hint="CNIC Number (13 digits)"
+                    android:textColorHint="#666666"
                     android:inputType="number"
+                    android:maxLength="13"
                     android:textColor="#333333"
                     android:textSize="17sp" />
             </LinearLayout>

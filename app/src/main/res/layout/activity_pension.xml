@@ -25,57 +25,21 @@
                 android:layout_height="40dp"
                 android:padding="8dp"
                 android:src="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="@id/searchCard"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/searchCard"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="#1A1A1A" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/searchCard"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                app:cardCornerRadius="25dp"
-                app:cardElevation="0dp"
-                app:layout_constraintEnd_toStartOf="@id/profileImage"
-                app:layout_constraintStart_toEndOf="@id/btnBack"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="8dp">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_search"
-                        app:tint="#8E8E8E" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:background="@android:color/transparent"
-                        android:hint="Search here"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/profileImage"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_person"
-                app:layout_constraintBottom_toBottomOf="@id/searchCard"
+                android:text="Apply For Pension"
+                android:textColor="#1A1A1A"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/btnBack"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/searchCard"
-                app:shapeAppearanceOverlay="@style/CircleImage" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnBack" />
 
             <!-- Stepper -->
             <LinearLayout
@@ -87,9 +51,10 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="4dp"
-                app:layout_constraintTop_toBottomOf="@id/searchCard">
+                app:layout_constraintTop_toBottomOf="@id/btnBack">
 
                 <TextView
+                    android:id="@+id/step1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -101,6 +66,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/step2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -110,6 +76,7 @@
                     android:textColor="#1A1A1A" />
 
                 <TextView
+                    android:id="@+id/step3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -118,31 +85,6 @@
                     android:text="3 Documents"
                     android:textColor="#1A1A1A" />
             </LinearLayout>
-
-            <!-- Title Section -->
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Apply For Pension"
-                android:textColor="#707070"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepperLayout" />
-
-            <TextView
-                android:id="@+id/tvSubtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Please fill the form carefully."
-                android:textColor="#A0A0A0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
             <!-- Personal Information Section -->
             <TextView
@@ -155,7 +97,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+                app:layout_constraintTop_toBottomOf="@id/stepperLayout" />
 
             <LinearLayout
                 android:id="@+id/personalInfoContainer"
@@ -174,7 +116,7 @@
                     android:background="@drawable/bg_input_field"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:paddingHorizontal="12dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -182,14 +124,15 @@
                         android:src="@drawable/ic_person"
                         app:tint="#00A651" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Name"
+                    <EditText
+                        android:id="@+id/etPensionName"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@null"
+                        android:hint="Full Name"
                         android:textColor="#1A1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <!-- Phone Number Field -->
@@ -200,7 +143,7 @@
                     android:background="@drawable/bg_input_field"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:paddingHorizontal="12dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -208,32 +151,29 @@
                         android:src="@drawable/ic_phone"
                         app:tint="#00A651" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:text="Phone Number"
+                    <EditText
+                        android:id="@+id/etPensionPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@null"
+                        android:hint="Phone Number (11 digits)"
+                        android:inputType="phone"
+                        android:maxLength="11"
                         android:textColor="#1A1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#FFCCBC" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <!-- DOB Field -->
                 <LinearLayout
+                    android:id="@+id/btnSelectDob"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_input_field"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:paddingHorizontal="12dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -242,20 +182,13 @@
                         app:tint="#00A651" />
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:id="@+id/tvDob"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_weight="1"
-                        android:text="Date of Birth"
+                        android:layout_marginStart="12dp"
+                        android:text="Select Date of Birth"
                         android:textColor="#1A1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#FFCCBC" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <!-- Gender Section -->
@@ -275,12 +208,14 @@
                         android:textStyle="bold" />
 
                     <RadioGroup
+                        android:id="@+id/rgGender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:id="@+id/rbMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:buttonTint="#00A651"
@@ -288,6 +223,7 @@
                             android:textColor="#1A1A1A" />
 
                         <RadioButton
+                            android:id="@+id/rbFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -298,15 +234,15 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Personal Details Section -->
+            <!-- Employment Details Section -->
             <TextView
                 android:id="@+id/tvPersonalDetailsHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="Personal Details"
+                android:text="Employment Details"
                 android:textColor="#606060"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/personalInfoContainer" />
@@ -323,42 +259,17 @@
                 <!-- Pension Type -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:background="@drawable/bg_input_field"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:paddingHorizontal="12dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Pension Type"
-                        android:textColor="#1A1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:text="Retirement"
-                        android:textColor="#1A1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="#FFCCBC" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginStart="4dp"
-                        android:src="@drawable/ic_expand_more"
-                        app:tint="#00A651" />
+                    <Spinner
+                        android:id="@+id/spinnerPensionType"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:entries="@array/pension_types" />
                 </LinearLayout>
 
                 <!-- Department -->
@@ -369,7 +280,7 @@
                     android:background="@drawable/bg_input_field"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:paddingHorizontal="12dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -377,25 +288,27 @@
                         android:src="@drawable/ic_apartment"
                         app:tint="#00A651" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Department"
+                    <EditText
+                        android:id="@+id/etDepartment"
+                        android:layout_width="match_parent"
+                        android:layout_height="54dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@null"
+                        android:hint="Department Name"
                         android:textColor="#1A1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <!-- Retirement Date -->
                 <LinearLayout
+                    android:id="@+id/btnSelectRetirementDate"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="54dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/bg_input_field"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:paddingHorizontal="12dp">
 
                     <ImageView
                         android:layout_width="24dp"
@@ -404,16 +317,24 @@
                         app:tint="#00A651" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvRetirementDate"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Retirement Date"
+                        android:layout_marginStart="12dp"
+                        android:text="Select Retirement Date"
                         android:textColor="#1A1A1A"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <!-- Upload Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Upload Documents"
+                    android:textColor="#1A1A1A"
+                    android:textStyle="bold" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -421,118 +342,90 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnUploadCnicFront"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="16dp">
+                            android:padding="12dp">
 
                             <ImageView
+                                android:id="@+id/ivCnicFront"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_add"
                                 app:tint="#00A651" />
 
                             <TextView
+                                android:id="@+id/tvCnicFront"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:gravity="center"
-                                android:text="Upload Front Side\nOf CNIC"
+                                android:text="CNIC Front"
                                 android:textColor="#1A1A1A"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/btnUploadCnicBack"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="16dp">
+                            android:padding="12dp">
 
                             <ImageView
+                                android:id="@+id/ivCnicBack"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_add"
                                 app:tint="#00A651" />
 
                             <TextView
+                                android:id="@+id/tvCnicBack"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
                                 android:gravity="center"
-                                android:text="Upload Back Side\nOf CNIC"
+                                android:text="CNIC Back"
                                 android:textColor="#1A1A1A"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="12dp"
-                    app:cardBackgroundColor="@android:color/white"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_add"
-                            app:tint="#00A651" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center"
-                            android:text="Retirement Letter"
-                            android:textColor="#1A1A1A"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
                 <CheckBox
+                    android:id="@+id/cbConfirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:buttonTint="#00A651"
-                    android:checked="true"
-                    android:text="I confirmed all the above information"
+                    android:checked="false"
+                    android:text="I confirm all the above information"
                     android:textColor="#8E8E8E" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmitPension"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="16dp"
@@ -558,6 +451,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
+            android:id="@+id/navHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -566,6 +460,7 @@
             app:tint="#1A1A1A" />
 
         <ImageView
+            android:id="@+id/navHelp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -574,6 +469,7 @@
             app:tint="#1A1A1A" />
 
         <ImageView
+            android:id="@+id/navSettings"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
