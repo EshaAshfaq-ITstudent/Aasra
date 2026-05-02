@@ -18,6 +18,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Voice Assistant Toggle -->
+    <ImageView
+        android:id="@+id/ivVoiceAssistant"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_lang_toggle"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/ic_volume_up"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#1A1A1A" />
+
+    <!-- Language Toggle exactly like the image -->
+    <LinearLayout
+        android:id="@+id/layoutLanguageToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_lang_toggle"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvLangEng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="6dp"
+            android:text="ENG"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_lang_active" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="15dp"
+            android:background="#E0E0E0"
+            android:layout_marginHorizontal="2dp"/>
+
+        <TextView
+            android:id="@+id/tvLangUrdu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="6dp"
+            android:text="اردو"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cvWelcome"
         android:layout_width="0dp"
@@ -93,7 +155,7 @@
                 android:layout_height="54dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/get_started_btn_bg"
-                android:text="Get Started →"
+                android:text="Get Started"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="17sp"

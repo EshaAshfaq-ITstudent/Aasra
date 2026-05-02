@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android) // ✅ Ye apply karna zaroori hai, iske bina Kotlin code compile nahi hoga
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -32,9 +32,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    /* ✅ Kotlin JVM target configuration */
     kotlinOptions {
         jvmTarget = "11"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 

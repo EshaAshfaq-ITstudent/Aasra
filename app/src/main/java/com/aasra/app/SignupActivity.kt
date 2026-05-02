@@ -1,20 +1,25 @@
 package com.aasra.app
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import java.util.Locale
 
-class SignupActivity : AppCompatActivity() {
+class SignupActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var dbHelper: DatabaseHelper
+    private var tts: TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
         dbHelper = DatabaseHelper(this)
+        tts = TextToSpeech(this, this)
 
         val etFullName = findViewById<EditText>(R.id.etFullName)
         val etPhone = findViewById<EditText>(R.id.etPhone)
@@ -26,14 +31,13 @@ class SignupActivity : AppCompatActivity() {
             val phoneInput = etPhone.text.toString().trim()
             val cnic = etCnic.text.toString().trim()
 
-            // Validations
             if (name.isEmpty() || phoneInput.isEmpty() || cnic.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (phoneInput.length != 10) {
-                Toast.makeText(this, "Phone number must be exactly 10 digits (after +92)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Phone number must be exactly 10 digits", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -55,5 +59,24 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this, "Registration Failed or CNIC already exists", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val isUrdu = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getBoolean("USE_URDU", false)
+            if (isUrdu) {
+                tts?.setLanguage(Locale("ur", "PK"))
+                tts?.speak("Meherbaani karke apna naam, phone number aur tera hindson ka se en i si number darj karein.", TextToSpeech.QUEUE_FLUSH, null, "SignupID")
+            } else {
+                tts?.setLanguage(Locale.US)
+                tts?.speak("Please enter your full name, phone number, and thirteen digit C N I C to create your account.", TextToSpeech.QUEUE_FLUSH, null, "SignupID")
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        tts?.stop()
+        tts?.shutdown()
+        super.onDestroy()
     }
 }

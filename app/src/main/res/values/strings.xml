@@ -2,8 +2,8 @@
     <string name="app_name">Aasra</string>
     <string name="tagline">Aasra – Pension Made Simple</string>
     <string name="welcome_to_aasra">Welcome To Aasra</string>
-    <string name="welcome_description">From application to resolution,\nAasra makes pension and support\nrequests easy and transparent for seniors.</string>
-    <string name="get_started">Get Started \u2192</string>
+    <string name="welcome_description">From application to resolution, Aasra makes pension and support requests easy and transparent for seniors.</string>
+    <string name="get_started">Get Started</string>
 
     <string-array name="pension_types">
         <item>Select Pension Type</item>

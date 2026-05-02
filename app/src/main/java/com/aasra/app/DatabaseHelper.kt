@@ -11,7 +11,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "AasraDB"
-        private const val DATABASE_VERSION = 4 // Incremented version
+        private const val DATABASE_VERSION = 5 
         
         private const val TABLE_USERS = "users"
         private const val COLUMN_ID = "id"
@@ -43,6 +43,14 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         private const val COLUMN_T_ATTACHMENT = "attachment_path"
         private const val COLUMN_T_STATUS = "status"
         private const val COLUMN_T_TIMESTAMP = "timestamp"
+
+        // Documents Table (Vault)
+        private const val TABLE_DOCUMENTS = "documents"
+        private const val COLUMN_D_ID = "d_id"
+        private const val COLUMN_D_USER_CNIC = "user_cnic"
+        private const val COLUMN_D_NAME = "doc_name"
+        private const val COLUMN_D_PATH = "doc_path"
+        private const val COLUMN_D_TYPE = "doc_type"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -69,10 +77,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db?.execSQL(createPensionTable)
 
         createTicketsTable(db)
+        createDocumentsTable(db)
     }
 
     private fun createTicketsTable(db: SQLiteDatabase?) {
-        val createTicketsTable = ("CREATE TABLE " + TABLE_TICKETS + "("
+        val createTicketsTable = ("CREATE TABLE IF NOT EXISTS " + TABLE_TICKETS + "("
                 + COLUMN_T_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_TICKET_ID + " TEXT,"
                 + COLUMN_T_USER_CNIC + " TEXT,"
@@ -84,6 +93,16 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db?.execSQL(createTicketsTable)
     }
 
+    private fun createDocumentsTable(db: SQLiteDatabase?) {
+        val createDocsTable = ("CREATE TABLE IF NOT EXISTS " + TABLE_DOCUMENTS + "("
+                + COLUMN_D_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_D_USER_CNIC + " TEXT,"
+                + COLUMN_D_NAME + " TEXT,"
+                + COLUMN_D_PATH + " TEXT,"
+                + COLUMN_D_TYPE + " TEXT" + ")")
+        db?.execSQL(createDocsTable)
+    }
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         if (oldVersion < 2) {
             db?.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_PENSION ($COLUMN_P_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_APP_ID TEXT, $COLUMN_P_USER_CNIC TEXT, $COLUMN_P_NAME TEXT, $COLUMN_P_PHONE TEXT, $COLUMN_P_DOB TEXT, $COLUMN_P_GENDER TEXT, $COLUMN_P_TYPE TEXT, $COLUMN_P_DEPT TEXT, $COLUMN_P_RETIRE_DATE TEXT, $COLUMN_P_STATUS TEXT)")
@@ -93,6 +112,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         if (oldVersion < 4) {
             createTicketsTable(db)
+        }
+        if (oldVersion < 5) {
+            createDocumentsTable(db)
         }
     }
 
@@ -142,11 +164,32 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return appData
     }
 
-    fun updateApplicationStatus(appId: String, newStatus: String) {
+    // Document Vault Methods
+    fun addDocument(cnic: String, name: String, path: String, type: String): Boolean {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(COLUMN_P_STATUS, newStatus)
-        db.update(TABLE_PENSION, values, "$COLUMN_APP_ID=?", arrayOf(appId))
+        values.put(COLUMN_D_USER_CNIC, cnic)
+        values.put(COLUMN_D_NAME, name)
+        values.put(COLUMN_D_PATH, path)
+        values.put(COLUMN_D_TYPE, type)
+        return db.insert(TABLE_DOCUMENTS, null, values) != -1L
+    }
+
+    fun getDocuments(cnic: String): List<Map<String, String>> {
+        val docs = mutableListOf<Map<String, String>>()
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_DOCUMENTS, null, "$COLUMN_D_USER_CNIC=?", arrayOf(cnic), null, null, null)
+        if (cursor.moveToFirst()) {
+            do {
+                docs.add(mapOf(
+                    "name" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_D_NAME)),
+                    "path" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_D_PATH)),
+                    "type" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_D_TYPE))
+                ))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return docs
     }
 
     // Ticket Methods
@@ -178,6 +221,27 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         }
         cursor.close()
         return ticketData
+    }
+
+    fun getAllTickets(cnic: String): List<Map<String, String>> {
+        val ticketList = mutableListOf<Map<String, String>>()
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_TICKETS, null, "$COLUMN_T_USER_CNIC=?", arrayOf(cnic), null, null, "$COLUMN_T_ID DESC")
+        
+        if (cursor.moveToFirst()) {
+            do {
+                val ticket = mapOf(
+                    "ticketId" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TICKET_ID)),
+                    "issueType" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_T_ISSUE_TYPE)),
+                    "description" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_T_DESCRIPTION)),
+                    "status" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_T_STATUS)),
+                    "timestamp" to cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_T_TIMESTAMP)).toString()
+                )
+                ticketList.add(ticket)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return ticketList
     }
 
     fun updateTicketStatus(ticketId: String, newStatus: String) {

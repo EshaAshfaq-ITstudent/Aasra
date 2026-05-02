@@ -17,6 +17,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Voice Assistant Toggle -->
+    <ImageView
+        android:id="@+id/ivVoiceAssistant"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/bg_lang_toggle"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/ic_volume_up"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#1A1A1A" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cvLogin"
         android:layout_width="0dp"
@@ -56,7 +73,6 @@
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
-            <!-- CNIC Number Input -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
@@ -92,7 +108,7 @@
                 android:layout_height="54dp"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/get_started_btn_bg"
-                android:text="Log In →"
+                android:text="Log In"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="17sp"

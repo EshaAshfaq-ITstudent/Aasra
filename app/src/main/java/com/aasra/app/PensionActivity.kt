@@ -1,8 +1,10 @@
 package com.aasra.app
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -10,15 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 import kotlin.random.Random
 
-class PensionActivity : AppCompatActivity() {
+class PensionActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private lateinit var dbHelper: DatabaseHelper
     private var userCnic: String? = null
+    private var tts: TextToSpeech? = null
     
     private var cnicFrontUri: Uri? = null
     private var cnicBackUri: Uri? = null
 
-    // Naya tareeka Gallery kholne ka
     private val pickCnicFront = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             cnicFrontUri = uri
@@ -42,6 +44,7 @@ class PensionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pension)
 
         dbHelper = DatabaseHelper(this)
+        tts = TextToSpeech(this, this)
         userCnic = intent.getStringExtra("USER_CNIC")
 
         val etName = findViewById<EditText>(R.id.etPensionName)
@@ -54,7 +57,6 @@ class PensionActivity : AppCompatActivity() {
         val cbConfirm = findViewById<CheckBox>(R.id.cbConfirm)
         val btnSubmit = findViewById<Button>(R.id.btnSubmitPension)
 
-        // Date Pickers
         findViewById<LinearLayout>(R.id.btnSelectDob).setOnClickListener {
             showDatePicker { date -> tvDob.text = date }
         }
@@ -63,7 +65,6 @@ class PensionActivity : AppCompatActivity() {
             showDatePicker { date -> tvRetireDate.text = date }
         }
         
-        // Gallery kholne ke liye click listeners
         findViewById<View>(R.id.btnUploadCnicFront).setOnClickListener {
             pickCnicFront.launch("image/*")
         }
@@ -72,7 +73,6 @@ class PensionActivity : AppCompatActivity() {
             pickCnicBack.launch("image/*")
         }
 
-        // Back Button
         findViewById<ImageView>(R.id.btnBack).setOnClickListener { finish() }
 
         btnSubmit.setOnClickListener {
@@ -84,7 +84,6 @@ class PensionActivity : AppCompatActivity() {
             val dept = etDept.text.toString().trim()
             val retireDate = tvRetireDate.text.toString()
 
-            // Validations
             if (name.isEmpty() || phone.isEmpty() || dept.isEmpty() || 
                 dob == "Select Date of Birth" || retireDate == "Select Retirement Date" ||
                 spinnerType.selectedItemPosition == 0) {
@@ -107,7 +106,6 @@ class PensionActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // ID Generate karein
             val appId = "ASR-" + Random.nextInt(100000, 999999).toString()
             
             val success = dbHelper.addPensionApplication(
@@ -115,12 +113,37 @@ class PensionActivity : AppCompatActivity() {
             )
 
             if (success) {
+                val isUrdu = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getBoolean("USE_URDU", false)
+                if (isUrdu) {
+                    tts?.speak("Aap ki application jama ho gayi hai. Application I D hai $appId", TextToSpeech.QUEUE_FLUSH, null, "SuccessID")
+                } else {
+                    tts?.speak("Your pension application has been submitted successfully. Your Application I D is $appId", TextToSpeech.QUEUE_FLUSH, null, "SuccessID")
+                }
                 Toast.makeText(this, "Application Submitted! ID: $appId", Toast.LENGTH_LONG).show()
-                finish() // Dashboard par wapas jayein
+                finish()
             } else {
                 Toast.makeText(this, "Failed to submit application", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val isUrdu = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getBoolean("USE_URDU", false)
+            if (isUrdu) {
+                tts?.setLanguage(Locale("ur", "PK"))
+                tts?.speak("Meherbaani karke apni tafseelaat darj karein aur se en i si ki dono sides upload karein.", TextToSpeech.QUEUE_FLUSH, null, "PensionID")
+            } else {
+                tts?.setLanguage(Locale.US)
+                tts?.speak("Please provide your personal details and upload both sides of your C N I C card.", TextToSpeech.QUEUE_FLUSH, null, "PensionID")
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        tts?.stop()
+        tts?.shutdown()
+        super.onDestroy()
     }
 
     private fun showDatePicker(onDateSelected: (String) -> Unit) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
+    android:background="#F5F5F0"
     tools:context=".DashboardActivity">
 
     <ImageView
@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/loginbackground"
-        android:alpha="0.25" />
+        android:alpha="0.15"
+        android:contentDescription="@null" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -32,48 +33,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
 
+                <!-- Speaker Icon (Replaced Sidebar Sign) -->
                 <ImageView
-                    android:id="@+id/ivMenu"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:id="@+id/ivVoiceAssistant"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_menu"
-                    app:tint="@color/text_primary" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_toEndOf="@id/ivMenu"
-                    android:layout_toStartOf="@id/ivProfile"
-                    android:background="@drawable/bg_search_bar"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="16dp">
-
-                    <ImageView
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:src="@drawable/ic_search"
-                        app:tint="@color/text_secondary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="Search here"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                    android:padding="8dp"
+                    android:src="@drawable/ic_volume_up"
+                    android:contentDescription="Toggle Voice Assistant"
+                    android:background="@drawable/bg_lang_toggle"
+                    android:elevation="2dp"
+                    app:tint="#1A1A1A" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivProfile"
-                    android:layout_width="52dp"
-                    android:layout_height="52dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_alignParentEnd="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/aasra"
+                    android:contentDescription="Profile Picture"
                     app:shapeAppearanceOverlay="@style/CircleImage"
                     app:strokeColor="@color/white"
                     app:strokeWidth="2dp" />
@@ -86,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
                 android:text="Hello, User"
-                android:textColor="@color/text_primary"
+                android:textColor="#1A1A1A"
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
@@ -96,14 +77,15 @@
                 android:layout_marginTop="4dp"
                 android:lineSpacingExtra="4dp"
                 android:text="Welcome to Aasra,\nHow can we help you today?"
-                android:textColor="@color/text_secondary"
+                android:textColor="#606060"
                 android:textSize="17sp" />
 
             <!-- Action Cards -->
             <HorizontalScrollView
+                android:id="@+id/hsvActions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -112,149 +94,71 @@
                     android:orientation="horizontal"
                     android:paddingVertical="8dp">
 
-                    <!-- Apply Pension -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardApplyPension"
-                        android:layout_width="240dp"
-                        android:layout_height="130dp"
+                        android:layout_width="220dp"
+                        android:layout_height="120dp"
                         android:layout_marginEnd="16dp"
-                        app:cardCornerRadius="28dp"
+                        app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
                         app:cardBackgroundColor="@color/white">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="20dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_toStartOf="@id/ivIcon1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Apply For Pension"
-                                    android:textColor="@color/text_primary"
-                                    android:textSize="17sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:text="New Application"
-                                    android:textColor="@color/text_secondary"
-                                    android:textSize="15sp" />
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIcon1" android:orientation="vertical">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Apply For Pension" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Application" android:textColor="#606060" android:textSize="14sp" />
                             </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/ivIcon1"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_submitted" />
+                            <ImageView android:id="@+id/ivIcon1" android:layout_width="56dp" android:layout_height="56dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_submitted" android:contentDescription="@null" />
                         </RelativeLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Track Application -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardTrackApp"
-                        android:layout_width="240dp"
-                        android:layout_height="130dp"
+                        android:layout_width="220dp"
+                        android:layout_height="120dp"
                         android:layout_marginEnd="16dp"
-                        app:cardCornerRadius="28dp"
+                        app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
                         app:cardBackgroundColor="@color/white">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="20dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_toStartOf="@id/ivIcon2"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Track application"
-                                    android:textColor="@color/text_primary"
-                                    android:textSize="17sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:text="View Status"
-                                    android:textColor="@color/text_secondary"
-                                    android:textSize="15sp" />
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIcon2" android:orientation="vertical">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Track Status" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="View Progress" android:textColor="#606060" android:textSize="14sp" />
                             </LinearLayout>
-
-                            <ImageView
-                                android:id="@+id/ivIcon2"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_verification" />
+                            <ImageView android:id="@+id/ivIcon2" android:layout_width="56dp" android:layout_height="56dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_verification" android:contentDescription="@null" />
                         </RelativeLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Register Complaint -->
+                    <!-- Document Vault Card -->
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/cardComplaint"
-                        android:layout_width="240dp"
-                        android:layout_height="130dp"
-                        app:cardCornerRadius="28dp"
+                        android:id="@+id/cardVault"
+                        android:layout_width="220dp"
+                        android:layout_height="120dp"
+                        android:layout_marginEnd="16dp"
+                        app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
                         app:cardBackgroundColor="@color/white">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="20dp">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_toStartOf="@id/ivIcon3"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Register Complaint"
-                                    android:textColor="@color/text_primary"
-                                    android:textSize="17sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:text="Get Support"
-                                    android:textColor="@color/text_secondary"
-                                    android:textSize="15sp" />
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIconVault" android:orientation="vertical">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Document Vault" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Your Saved Docs" android:textColor="#606060" android:textSize="14sp" />
                             </LinearLayout>
+                            <ImageView android:id="@+id/ivIconVault" android:layout_width="56dp" android:layout_height="56dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_review" android:contentDescription="@null" />
+                        </RelativeLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
-                            <ImageView
-                                android:id="@+id/ivIcon3"
-                                android:layout_width="64dp"
-                                android:layout_height="64dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_phone" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardComplaint"
+                        android:layout_width="220dp"
+                        android:layout_height="120dp"
+                        app:cardCornerRadius="24dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/white">
+                        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+                            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIcon3" android:orientation="vertical">
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Complaints" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
+                                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Get Support" android:textColor="#606060" android:textSize="14sp" />
+                            </LinearLayout>
+                            <ImageView android:id="@+id/ivIcon3" android:layout_width="56dp" android:layout_height="56dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_phone" android:contentDescription="@null" />
                         </RelativeLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
@@ -264,9 +168,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:text="Recent updates"
-                android:textColor="@color/text_primary"
+                android:layout_marginTop="32dp"
+                android:text="Recent Updates"
+                android:textColor="#1A1A1A"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -274,47 +178,16 @@
                 android:id="@+id/cardRecentUpdates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="24dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/faq_item_bg">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="24dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvUpdateTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="No current application"
-                            android:textColor="@color/text_primary"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvUpdateId"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="Apply for pension to see status here."
-                            android:textColor="@color/text_secondary"
-                            android:textSize="15sp" />
+                app:cardBackgroundColor="#F2EFE9">
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp">
+                    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
+                        <TextView android:id="@+id/tvUpdateTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No current application" android:textColor="#1A1A1A" android:textSize="17sp" android:textStyle="bold" />
+                        <TextView android:id="@+id/tvUpdateId" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Apply for pension to see status here." android:textColor="#606060" android:textSize="14sp" />
                     </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_arrow_forward"
-                        app:tint="@color/accent_orange" />
+                    <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_arrow_forward" android:contentDescription="View Details" app:tint="#D99B82" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -322,10 +195,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:text="FAQS"
-                android:textColor="@color/text_primary"
-                android:textSize="20sp"
+                android:layout_marginTop="32dp"
+                android:text="Frequently Asked Questions"
+                android:textColor="#1A1A1A"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <!-- FAQ 1 -->
@@ -333,51 +206,16 @@
                 android:id="@+id/faqItem1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="20dp"
+                android:layout_marginTop="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/faq_item_bg">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@id/ivExpand1"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Can I check my application status?"
-                            android:textColor="@color/text_primary"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/ivExpand1"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_add"
-                            app:tint="@color/text_primary" />
+                app:cardBackgroundColor="#F2EFE9">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivExpand1" android:text="Can I check my application status?" android:textColor="#1A1A1A" android:textSize="15sp" android:textStyle="bold" />
+                        <ImageView android:id="@+id/ivExpand1" android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_add" android:contentDescription="Expand" app:tint="#1A1A1A" />
                     </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/tvAnswer1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="Yes, you can track your application in real-time using your Ticket ID in the 'Track Application' section."
-                        android:textColor="@color/text_secondary"
-                        android:textSize="15sp"
-                        android:visibility="gone" />
+                    <TextView android:id="@+id/tvAnswer1" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Yes, you can track your application in real-time using your CNIC in the 'Track Status' section." android:textColor="#606060" android:textSize="14sp" android:visibility="gone" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -386,51 +224,16 @@
                 android:id="@+id/faqItem2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="20dp"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/faq_item_bg">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:layout_toStartOf="@id/ivExpand2"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="What documents are required?"
-                            android:textColor="@color/text_primary"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/ivExpand2"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_add"
-                            app:tint="@color/text_primary" />
+                app:cardBackgroundColor="#F2EFE9">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivExpand2" android:text="What documents are required?" android:textColor="#1A1A1A" android:textSize="15sp" android:textStyle="bold" />
+                        <ImageView android:id="@+id/ivExpand2" android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_add" android:contentDescription="Expand" app:tint="#1A1A1A" />
                     </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/tvAnswer2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="You will need your CNIC, Pension Book copies, and valid Bank Account details for verification."
-                        android:textColor="@color/text_secondary"
-                        android:textSize="15sp"
-                        android:visibility="gone" />
+                    <TextView android:id="@+id/tvAnswer2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="You will need your CNIC, Pension Book copies, and valid Bank Account details for verification." android:textColor="#606060" android:textSize="14sp" android:visibility="gone" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -440,45 +243,16 @@
     <!-- Bottom Navigation Bar -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="72dp"
         android:layout_gravity="bottom"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="24dp"
-        app:cardCornerRadius="40dp"
-        app:cardElevation="12dp"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="36dp"
+        app:cardElevation="8dp"
         app:strokeWidth="0dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp">
-
-            <ImageView
-                android:id="@+id/navHome"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_home"
-                app:tint="@color/text_primary" />
-
-            <ImageView
-                android:id="@+id/navHelp"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_help"
-                app:tint="@color/text_secondary" />
-
-            <ImageView
-                android:id="@+id/navSettings"
-                android:layout_width="0dp"
-                android:layout_height="32dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_settings"
-                app:tint="@color/text_secondary" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/white" android:gravity="center" android:orientation="horizontal">
+            <ImageView android:id="@+id/navHome" android:layout_width="0dp" android:layout_height="28dp" android:layout_weight="1" android:src="@drawable/ic_home" android:contentDescription="Home" app:tint="#606060" />
+            <ImageView android:id="@+id/navHelp" android:layout_width="0dp" android:layout_height="28dp" android:layout_weight="1" android:src="@drawable/ic_help" android:contentDescription="Help" app:tint="#606060" />
+            <ImageView android:id="@+id/navSettings" android:layout_width="0dp" android:layout_height="28dp" android:layout_weight="1" android:src="@drawable/ic_settings" android:contentDescription="Settings" app:tint="#606060" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
