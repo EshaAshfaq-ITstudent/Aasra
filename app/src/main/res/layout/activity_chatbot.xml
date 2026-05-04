@@ -69,13 +69,21 @@
             android:padding="8dp"
             android:gravity="center_vertical">
 
+            <ImageView
+                android:id="@+id/ivMic"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_mic"
+                app:tint="@color/accent_orange" />
+
             <EditText
                 android:id="@+id/etMessage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="Type your question here..."
+                android:hint="Type or speak here..."
                 android:padding="12dp"
                 android:maxLines="3"
                 android:textSize="14sp" />

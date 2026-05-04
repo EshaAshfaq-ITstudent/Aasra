@@ -7,13 +7,21 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
@@ -30,6 +38,9 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var scrollDirection = 1 
     private var isUserInteracting = false
     private var lastInteractionTime: Long = 0
+
+    private lateinit var rvHistory: RecyclerView
+    private var historyList = mutableListOf<Map<String, String>>()
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,34 +60,48 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         ivVoiceAssistant = findViewById(R.id.ivVoiceAssistant)
         hsvActions = findViewById(R.id.hsvActions)
         
+        // Setup History RecyclerView
+        rvHistory = findViewById(R.id.rvApplicationHistory)
+        rvHistory.layoutManager = LinearLayoutManager(this)
+        rvHistory.isNestedScrollingEnabled = false
+        
         updateApplicationStatus()
         updateVoiceIcon()
         
         // Start smooth auto-scroll for all 4 cards
         startAutoScroll()
 
-        // Touch listener to handle manual interaction and avoid stuttering
+        // Touch listener for auto-scroll management
         val touchListener = View.OnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+            when (event.actionMasked) {
+
+                MotionEvent.ACTION_DOWN -> {
                     isUserInteracting = true
                 }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+
+                MotionEvent.ACTION_UP,
+                MotionEvent.ACTION_CANCEL -> {
                     isUserInteracting = false
-                    lastInteractionTime = System.currentTimeMillis()
-                    v.performClick()
                 }
             }
-            false 
+            false // IMPORTANT: allow user scrolling
         }
 
         hsvActions.setOnTouchListener(touchListener)
         
-        // Apply listener to cards so they don't block interaction detection
         findViewById<MaterialCardView>(R.id.cardApplyPension).setOnTouchListener(touchListener)
         findViewById<MaterialCardView>(R.id.cardTrackApp).setOnTouchListener(touchListener)
         findViewById<MaterialCardView>(R.id.cardVault).setOnTouchListener(touchListener)
         findViewById<MaterialCardView>(R.id.cardComplaint).setOnTouchListener(touchListener)
+
+
+
+        // Navigation Search Logic
+        findViewById<ImageView>(R.id.navSearch).setOnClickListener {
+            // Opening Chatbot as it provides assistant/search features
+            Toast.makeText(this, "Opening Aasra Assistant...", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, ChatbotActivity::class.java))
+        }
 
         ivVoiceAssistant.setOnClickListener {
             isVoiceEnabled = !isVoiceEnabled
@@ -110,6 +135,7 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             if (appData != null) {
                 val intent = Intent(this, TrackApplicationActivity::class.java)
                 intent.putExtra("USER_CNIC", userCnic)
+                intent.putExtra("APP_ID", appData["appId"])
                 startActivity(intent)
             } else {
                 val intent = Intent(this, PensionActivity::class.java)
@@ -118,7 +144,7 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
 
-        // Setup All 5 FAQs
+        // FAQ Setup
         setupFaq(R.id.faqItem1, R.id.tvAnswer1, R.id.ivExpand1)
         setupFaq(R.id.faqItem2, R.id.tvAnswer2, R.id.ivExpand2)
         setupFaq(R.id.faqItem3, R.id.tvAnswer3, R.id.ivExpand3)
@@ -151,31 +177,40 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
     }
 
+    private var autoScrollRunnable: Runnable? = null
+
     private fun startAutoScroll() {
-        val scrollRunnable = object : Runnable {
+
+        // stop previous runnable safely
+        autoScrollRunnable?.let {
+            scrollHandler.removeCallbacks(it)
+        }
+
+        autoScrollRunnable = object : Runnable {
             override fun run() {
                 if (isFinishing) return
-                
-                if (!isUserInteracting && System.currentTimeMillis() - lastInteractionTime > 1500) {
-                    val container = hsvActions.getChildAt(0)
-                    if (container != null) {
-                        val maxScroll = container.width - hsvActions.width
-                        if (maxScroll > 0) {
-                            // Boundary check to cover all cards
-                            if (hsvActions.scrollX >= maxScroll) {
-                                scrollDirection = -1
-                            } else if (hsvActions.scrollX <= 0) {
-                                scrollDirection = 1
-                            }
-                            // Move by 4 pixels for a smoother and faster experience
-                            hsvActions.scrollBy(scrollDirection * 4, 0)
-                        }
+
+                val container = hsvActions.getChildAt(0) ?: return
+                val maxScroll = container.width - hsvActions.width
+
+                if (maxScroll > 0) {
+
+                    val speed = if (isUserInteracting) 1 else 3
+
+                    hsvActions.scrollBy(scrollDirection * speed, 0)
+
+                    if (hsvActions.scrollX >= maxScroll) {
+                        scrollDirection = -1
+                    } else if (hsvActions.scrollX <= 0) {
+                        scrollDirection = 1
                     }
                 }
-                scrollHandler.postDelayed(this, 20)
+
+                scrollHandler.postDelayed(this, 16)
             }
         }
-        scrollHandler.postDelayed(scrollRunnable, 1000)
+
+        scrollHandler.post(autoScrollRunnable!!)
     }
 
     private fun updateVoiceIcon() {
@@ -221,13 +256,69 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun updateApplicationStatus() {
         val tvUpdateTitle = findViewById<TextView>(R.id.tvUpdateTitle)
         val tvUpdateId = findViewById<TextView>(R.id.tvUpdateId)
-        val appData = userCnic?.let { dbHelper.getPensionApplication(it) }
-        if (appData != null) {
+        val tvHistoryHeader = findViewById<TextView>(R.id.tvHistoryHeader)
+        
+        val latestApp = userCnic?.let { dbHelper.getPensionApplication(it) }
+        if (latestApp != null) {
             tvUpdateTitle.text = "Pension Application"
-            tvUpdateId.text = "#${appData["appId"]} - ${appData["status"]}"
+            tvUpdateId.text = "#${latestApp["appId"]} - ${latestApp["status"]}"
         } else {
             tvUpdateTitle.text = "No current application"
             tvUpdateId.text = "Apply for pension to see status here."
         }
+
+        userCnic?.let { cnic ->
+            val allApps = dbHelper.getAllPensionApplications(cnic)
+            if (allApps.isNotEmpty()) {
+                tvHistoryHeader.visibility = View.VISIBLE
+                rvHistory.visibility = View.VISIBLE
+                historyList.clear()
+                historyList.addAll(allApps)
+                rvHistory.adapter = HistoryAdapter(historyList) { appId ->
+                    val intent = Intent(this, TrackApplicationActivity::class.java)
+                    intent.putExtra("USER_CNIC", cnic)
+                    intent.putExtra("APP_ID", appId)
+                    startActivity(intent)
+                }
+            } else {
+                tvHistoryHeader.visibility = View.GONE
+                rvHistory.visibility = View.GONE
+            }
+        }
+    }
+
+    class HistoryAdapter(
+        private val list: List<Map<String, String>>,
+        private val onItemClick: (String) -> Unit
+    ) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
+
+        class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val tvType: TextView = view.findViewById(R.id.tvAppType)
+            val tvStatus: TextView = view.findViewById(R.id.tvAppStatus)
+            val tvId: TextView = view.findViewById(R.id.tvAppId)
+            val tvDate: TextView = view.findViewById(R.id.tvAppDate)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_application_history, parent, false)
+            return ViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            val app = list[position]
+            holder.tvType.text = app["type"] ?: "Service Pension"
+            holder.tvStatus.text = app["status"]
+            holder.tvId.text = "#${app["appId"]}"
+            
+            val timestamp = app["timestamp"]?.toLongOrNull() ?: System.currentTimeMillis()
+            val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            holder.tvDate.text = "Submitted on ${sdf.format(Date(timestamp))}"
+
+            holder.itemView.setOnClickListener {
+                onItemClick(app["appId"] ?: "")
+            }
+        }
+
+        override fun getItemCount() = list.size
     }
 }

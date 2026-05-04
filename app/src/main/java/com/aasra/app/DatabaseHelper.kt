@@ -188,6 +188,42 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return appData
     }
 
+    fun getApplicationById(appId: String): Map<String, String>? {
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_PENSION, null, "$COLUMN_APP_ID=?", arrayOf(appId), null, null, null)
+        var appData: Map<String, String>? = null
+        if (cursor.moveToFirst()) {
+            appData = mapOf(
+                "appId" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_APP_ID)),
+                "status" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_P_STATUS)),
+                "timestamp" to cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_P_TIMESTAMP)).toString(),
+                "type" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_P_TYPE))
+            )
+        }
+        cursor.close()
+        return appData
+    }
+
+    fun getAllPensionApplications(cnic: String): List<Map<String, String>> {
+        val appList = mutableListOf<Map<String, String>>()
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_PENSION, null, "$COLUMN_P_USER_CNIC=?", arrayOf(cnic), null, null, "$COLUMN_P_ID DESC")
+
+        if (cursor.moveToFirst()) {
+            do {
+                val app = mapOf(
+                    "appId" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_APP_ID)),
+                    "status" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_P_STATUS)),
+                    "timestamp" to cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_P_TIMESTAMP)).toString(),
+                    "type" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_P_TYPE))
+                )
+                appList.add(app)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return appList
+    }
+
     // Document Vault Methods
     fun addDocument(cnic: String, name: String, path: String, type: String): Boolean {
         val db = this.writableDatabase

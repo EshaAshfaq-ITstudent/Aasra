@@ -66,7 +66,13 @@ class TrackApplicationActivity : AppCompatActivity(), TextToSpeech.OnInitListene
     }
 
     private fun loadApplicationData() {
-        val appData = userCnic?.let { dbHelper.getPensionApplication(it) }
+        val appIdFromIntent = intent.getStringExtra("APP_ID")
+        val appData = if (appIdFromIntent != null) {
+            dbHelper.getApplicationById(appIdFromIntent)
+        } else {
+            userCnic?.let { dbHelper.getPensionApplication(it) }
+        }
+
         if (appData != null) {
             val appId = appData["appId"] ?: "---"
             val status = appData["status"] ?: "Submitted"
