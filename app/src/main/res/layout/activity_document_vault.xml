@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="#F5F5F0">
 
-    <!-- Header Section - Moved down from top as requested -->
+    <!-- Header Section -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
@@ -37,13 +37,24 @@
             android:textColor="#1A1A1A"
             android:textSize="24sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivVoiceAssistant"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_volume_up"
+            android:contentDescription="Toggle Voice Assistant"
+            android:background="@drawable/bg_lang_toggle"
+            android:elevation="2dp"
+            app:tint="#1A1A1A" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDocuments"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:clipToPadding="false"
         android:paddingHorizontal="16dp"
         android:paddingBottom="100dp"

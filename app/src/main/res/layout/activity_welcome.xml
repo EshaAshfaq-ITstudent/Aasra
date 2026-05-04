@@ -21,21 +21,21 @@
     <!-- Voice Assistant Toggle -->
     <ImageView
         android:id="@+id/ivVoiceAssistant"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/bg_lang_toggle"
         android:clickable="true"
-        android:elevation="4dp"
+        android:elevation="6dp"
         android:focusable="true"
-        android:padding="8dp"
+        android:padding="10dp"
         android:src="@drawable/ic_volume_up"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="#1A1A1A" />
 
-    <!-- Language Toggle exactly like the image -->
+    <!-- Language Toggle -->
     <LinearLayout
         android:id="@+id/layoutLanguageToggle"
         android:layout_width="wrap_content"
@@ -43,10 +43,10 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/bg_lang_toggle"
-        android:elevation="4dp"
+        android:elevation="6dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="2dp"
+        android:padding="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -54,41 +54,36 @@
             android:id="@+id/tvLangEng"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="6dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
             android:text="ENG"
             android:textColor="@color/white"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:background="@drawable/bg_lang_active" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="15dp"
-            android:background="#E0E0E0"
-            android:layout_marginHorizontal="2dp"/>
 
         <TextView
             android:id="@+id/tvLangUrdu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="6dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
             android:text="اردو"
             android:textColor="@color/black"
-            android:textSize="13sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="32dp"
-        app:cardBackgroundColor="#E6E2D8"
-        app:cardCornerRadius="36dp"
-        app:cardElevation="0dp"
+        android:layout_marginBottom="40dp"
+        app:cardBackgroundColor="#F9F7F2"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="10dp"
+        app:strokeWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -99,69 +94,79 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="32dp">
+            android:paddingTop="32dp"
+            android:paddingBottom="40dp">
 
             <ImageView
                 android:id="@+id/ivLogo"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/aasra" />
 
             <TextView
                 android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-black"
                 android:text="Aasra"
                 android:textColor="#4F6D4C"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+                android:textSize="36sp" />
 
             <TextView
                 android:id="@+id/tvTagline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Aasra – Pension Made Simple"
-                android:textColor="#757575"
-                android:textSize="13sp" />
+                android:textColor="#888888"
+                android:textSize="14sp"
+                android:letterSpacing="0.05" />
 
             <TextView
                 android:id="@+id/tvWelcomeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="28dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Welcome To Aasra"
-                android:textColor="#555555"
-                android:textSize="22sp"
+                android:textColor="#333333"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:gravity="center"
-                android:lineSpacingExtra="2dp"
+                android:lineSpacingExtra="4dp"
                 android:text="From application to resolution,\nAasra makes pension and support\nrequests easy and transparent for seniors."
-                android:textColor="#757575"
-                android:textSize="14sp" />
+                android:textColor="#777777"
+                android:textSize="15sp" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGetStarted"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/get_started_btn_bg"
+                android:layout_height="64dp"
+                android:layout_marginTop="32dp"
                 android:text="Get Started"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/accent_orange"
+                app:cornerRadius="18dp"
+                app:elevation="8dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="textEnd"
+                app:iconPadding="12dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/white"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:rippleColor="#40FFFFFF" />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -114,16 +114,7 @@ class SubmitRequestActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             )
 
             if (success) {
-                if (isVoiceEnabled) {
-                    val isUrdu = sharedPref.getBoolean("USE_URDU", false)
-                    if (isUrdu) {
-                        tts?.setLanguage(Locale("ur", "PK"))
-                        tts?.speak("Aap ki shikayat jama ho gayi hai. Ticket number hai $ticketId", TextToSpeech.QUEUE_FLUSH, null, "SubmitID")
-                    } else {
-                        tts?.setLanguage(Locale.US)
-                        tts?.speak("Your support request has been submitted. Ticket I D is $ticketId", TextToSpeech.QUEUE_FLUSH, null, "SubmitID")
-                    }
-                }
+                // Speech is handled in ComplaintSuccessActivity to avoid being cut off
                 val intent = Intent(this, ComplaintSuccessActivity::class.java)
                 intent.putExtra("TICKET_ID", ticketId)
                 startActivity(intent)
@@ -177,6 +168,8 @@ class SubmitRequestActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     override fun onPause() {
+        // Only stop if we are not finishing to allow transition speech if needed
+        // but since we removed it, stopping is safer for cleanup
         tts?.stop()
         super.onPause()
     }

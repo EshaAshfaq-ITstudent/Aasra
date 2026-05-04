@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="100dp">
+        android:paddingBottom="120dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +44,18 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <!-- Profile Image Removed -->
+                <ImageView
+                    android:id="@+id/ivVoiceAssistant"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_volume_up"
+                    android:contentDescription="Toggle Voice Assistant"
+                    android:background="@drawable/bg_lang_toggle"
+                    android:elevation="2dp"
+                    app:tint="#1A1A1A" />
             </RelativeLayout>
 
             <!-- Welcome Message -->
@@ -73,7 +84,8 @@
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardBackgroundColor="@color/white"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -127,9 +139,11 @@
                         android:backgroundTint="@color/accent_orange"
                         android:text="Log Out"
                         android:textAllCaps="false"
+                        android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        app:cornerRadius="16dp" />
+                        app:cornerRadius="16dp"
+                        app:rippleColor="#40FFFFFF" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -140,7 +154,8 @@
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardBackgroundColor="@color/white"
+                app:strokeWidth="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -191,12 +206,14 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation Card -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="28dp"
         app:cardCornerRadius="36dp"
         app:cardElevation="8dp"
         app:strokeWidth="0dp">

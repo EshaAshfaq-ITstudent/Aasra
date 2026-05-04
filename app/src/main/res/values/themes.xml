@@ -1,11 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Aasra" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Base application theme. Always forced to Light. -->
+    <style name="Base.Theme.Aasra" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Status Bar -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Primary Colors -->
+        <item name="colorPrimary">@color/accent_orange</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/brand_green</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">#1A1A1A</item>
+
+        <item name="materialButtonStyle">@style/Widget.Aasra.Button</item>
     </style>
 
     <style name="Theme.Aasra" parent="Base.Theme.Aasra" />
+
+    <style name="Widget.Aasra.Button" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="iconTint">@color/white</item>
+        <item name="backgroundTint">@color/accent_orange</item>
+        <item name="rippleColor">#40FFFFFF</item>
+    </style>
 
     <style name="CircleImage">
         <item name="cornerSize">50%</item>

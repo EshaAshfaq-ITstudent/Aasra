@@ -98,10 +98,21 @@ class LoginActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
+            // Re-read preference to be safe
+            val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+            isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
             if (isVoiceEnabled) {
                 speakLoginPrompt()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Sync voice setting when returning to activity
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+        updateVoiceIcon()
     }
 
     override fun onDestroy() {

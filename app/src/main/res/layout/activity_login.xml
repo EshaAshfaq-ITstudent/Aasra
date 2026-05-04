@@ -20,29 +20,30 @@
     <!-- Voice Assistant Toggle -->
     <ImageView
         android:id="@+id/ivVoiceAssistant"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/bg_lang_toggle"
         android:clickable="true"
-        android:elevation="4dp"
+        android:elevation="6dp"
         android:focusable="true"
-        android:padding="8dp"
+        android:padding="10dp"
         android:src="@drawable/ic_volume_up"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="#1A1A1A" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="32dp"
-        app:cardBackgroundColor="#E6E2D8"
-        app:cardCornerRadius="36dp"
-        app:cardElevation="0dp"
+        android:layout_marginBottom="48dp"
+        app:cardBackgroundColor="#F9F7F2"
+        app:cardCornerRadius="40dp"
+        app:cardElevation="10dp"
+        app:strokeWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -53,29 +54,28 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingHorizontal="24dp"
-            android:paddingTop="24dp"
-            android:paddingBottom="32dp">
+            android:paddingTop="32dp"
+            android:paddingBottom="40dp">
 
             <ImageView
                 android:id="@+id/ivLogo"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/aasra" />
 
             <TextView
                 android:id="@+id/tvAppName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif-medium"
+                android:layout_marginTop="8dp"
+                android:fontFamily="sans-serif-black"
                 android:text="Aasra"
                 android:textColor="#4F6D4C"
-                android:textSize="32sp"
-                android:textStyle="bold" />
+                android:textSize="36sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/bg_login_input"
                 android:gravity="center_vertical"
@@ -102,22 +102,32 @@
                     android:textSize="17sp" />
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogin"
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
+                android:layout_height="64dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/get_started_btn_bg"
                 android:text="Log In"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/accent_orange"
+                app:cornerRadius="18dp"
+                app:elevation="4dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconGravity="textEnd"
+                app:iconPadding="12dp"
+                app:iconSize="24dp"
+                app:iconTint="@color/white"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:rippleColor="#40FFFFFF" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -138,6 +148,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -133,11 +133,19 @@ class WelcomeActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+            isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
             val isUrdu = sharedPref.getBoolean("USE_URDU", false)
             if (isVoiceEnabled) {
                 speakWelcome(isUrdu)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+        updateVoiceIcon()
     }
 
     override fun onDestroy() {

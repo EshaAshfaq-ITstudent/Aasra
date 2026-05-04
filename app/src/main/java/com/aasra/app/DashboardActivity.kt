@@ -1,11 +1,13 @@
 package com.aasra.app
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
+import android.view.MotionEvent
 import android.view.View
 import android.widget.HorizontalScrollView
 import android.widget.ImageView
@@ -25,9 +27,11 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     
     private lateinit var hsvActions: HorizontalScrollView
     private val scrollHandler = Handler(Looper.getMainLooper())
-    private var scrollPosition = 0
-    private var scrollDirection = 1 // 1 for right, -1 for left
+    private var scrollDirection = 1 
+    private var isUserInteracting = false
+    private var lastInteractionTime: Long = 0
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
@@ -38,7 +42,7 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         dbHelper = DatabaseHelper(this)
         tts = TextToSpeech(this, this)
         
-        userName = intent.getStringExtra("USER_NAME") ?: "User"
+        userName = intent.getStringExtra("USER_NAME") ?: sharedPref.getString("USER_NAME", "User") ?: "User"
         userCnic = intent.getStringExtra("USER_CNIC") ?: sharedPref.getString("USER_CNIC", "")
         
         findViewById<TextView>(R.id.tvHelloName).text = "Hello, $userName"
@@ -47,17 +51,38 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         
         updateApplicationStatus()
         updateVoiceIcon()
+        
+        // Start smooth auto-scroll for all 4 cards
         startAutoScroll()
+
+        // Touch listener to handle manual interaction and avoid stuttering
+        val touchListener = View.OnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                    isUserInteracting = true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    isUserInteracting = false
+                    lastInteractionTime = System.currentTimeMillis()
+                    v.performClick()
+                }
+            }
+            false 
+        }
+
+        hsvActions.setOnTouchListener(touchListener)
+        
+        // Apply listener to cards so they don't block interaction detection
+        findViewById<MaterialCardView>(R.id.cardApplyPension).setOnTouchListener(touchListener)
+        findViewById<MaterialCardView>(R.id.cardTrackApp).setOnTouchListener(touchListener)
+        findViewById<MaterialCardView>(R.id.cardVault).setOnTouchListener(touchListener)
+        findViewById<MaterialCardView>(R.id.cardComplaint).setOnTouchListener(touchListener)
 
         ivVoiceAssistant.setOnClickListener {
             isVoiceEnabled = !isVoiceEnabled
             sharedPref.edit().putBoolean("VOICE_ENABLED", isVoiceEnabled).apply()
             updateVoiceIcon()
-            if (isVoiceEnabled) {
-                speakGuidance()
-            } else {
-                tts?.stop()
-            }
+            if (isVoiceEnabled) speakGuidance() else tts?.stop()
         }
 
         findViewById<MaterialCardView>(R.id.cardApplyPension).setOnClickListener {
@@ -80,8 +105,25 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             startActivity(Intent(this, SubmitRequestActivity::class.java))
         }
 
+        findViewById<MaterialCardView>(R.id.cardRecentUpdates).setOnClickListener {
+            val appData = userCnic?.let { dbHelper.getPensionApplication(it) }
+            if (appData != null) {
+                val intent = Intent(this, TrackApplicationActivity::class.java)
+                intent.putExtra("USER_CNIC", userCnic)
+                startActivity(intent)
+            } else {
+                val intent = Intent(this, PensionActivity::class.java)
+                intent.putExtra("USER_CNIC", userCnic)
+                startActivity(intent)
+            }
+        }
+
+        // Setup All 5 FAQs
         setupFaq(R.id.faqItem1, R.id.tvAnswer1, R.id.ivExpand1)
         setupFaq(R.id.faqItem2, R.id.tvAnswer2, R.id.ivExpand2)
+        setupFaq(R.id.faqItem3, R.id.tvAnswer3, R.id.ivExpand3)
+        setupFaq(R.id.faqItem4, R.id.tvAnswer4, R.id.ivExpand4)
+        setupFaq(R.id.faqItem5, R.id.tvAnswer5, R.id.ivExpand5)
 
         findViewById<ImageView>(R.id.navSettings).setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
@@ -89,108 +131,13 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         findViewById<ImageView>(R.id.navHelp).setOnClickListener {
             startActivity(Intent(this, HelpActivity::class.java))
         }
-
         findViewById<ImageView>(R.id.navHome).setOnClickListener {
-            updateApplicationStatus()
             if (isVoiceEnabled) speakGuidance()
         }
     }
 
-    private fun startAutoScroll() {
-        val scrollRunnable = object : Runnable {
-            override fun run() {
-                val maxScroll = hsvActions.getChildAt(0).width - hsvActions.width
-                if (maxScroll > 0) {
-                    scrollPosition += (5 * scrollDirection)
-                    if (scrollPosition >= maxScroll) {
-                        scrollDirection = -1
-                    } else if (scrollPosition <= 0) {
-                        scrollDirection = 1
-                    }
-                    hsvActions.scrollTo(scrollPosition, 0)
-                }
-                scrollHandler.postDelayed(this, 50)
-            }
-        }
-        scrollHandler.postDelayed(scrollRunnable, 2000)
-    }
-
-    private fun updateVoiceIcon() {
-        if (isVoiceEnabled) {
-            ivVoiceAssistant.setImageResource(R.drawable.ic_volume_up)
-        } else {
-            ivVoiceAssistant.setImageResource(R.drawable.ic_volume_off)
-        }
-    }
-
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            if (isVoiceEnabled) {
-                speakGuidance()
-            }
-        }
-    }
-
-    private fun speakGuidance() {
-        if (!isVoiceEnabled) return
-        
-        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val isUrdu = sharedPref.getBoolean("USE_URDU", false)
-
-        if (isUrdu) {
-            val result = tts?.setLanguage(Locale("ur", "PK"))
-            if (result == TextToSpeech.LANG_AVAILABLE || result == TextToSpeech.LANG_COUNTRY_AVAILABLE) {
-                val message = "Khush aamdeed $userName. Ye aap ka dashboard hai. Yahan se aap pension ke liye apply kar saktay hain, apni application track kar saktay hain, ya apne documents save kar saktay hain."
-                tts?.speak(message, TextToSpeech.QUEUE_FLUSH, null, "DashboardID")
-            } else {
-                speakEnglishWelcome()
-            }
-        } else {
-            speakEnglishWelcome()
-        }
-    }
-
-    private fun speakEnglishWelcome() {
-        tts?.setLanguage(Locale.US)
-        val message = "Welcome back $userName. This is your dashboard. You can apply for pension, track status, or access your document vault."
-        tts?.speak(message, TextToSpeech.QUEUE_FLUSH, null, "DashboardID")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        updateApplicationStatus()
-    }
-
-    override fun onPause() {
-        tts?.stop()
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        scrollHandler.removeCallbacksAndMessages(null)
-        tts?.stop()
-        tts?.shutdown()
-        super.onDestroy()
-    }
-
-    private fun updateApplicationStatus() {
-        val tvUpdateTitle = findViewById<TextView>(R.id.tvUpdateTitle)
-        val tvUpdateId = findViewById<TextView>(R.id.tvUpdateId)
-        val appData = userCnic?.let { dbHelper.getPensionApplication(it) }
-        
-        if (appData != null) {
-            tvUpdateTitle.text = "Pension Application"
-            tvUpdateId.text = "#${appData["appId"]} - ${appData["status"]}"
-            findViewById<View>(R.id.cardRecentUpdates).setOnClickListener {
-                val intent = Intent(this, TrackApplicationActivity::class.java)
-                intent.putExtra("USER_CNIC", userCnic)
-                startActivity(intent)
-            }
-        }
-    }
-
     private fun setupFaq(layoutId: Int, answerId: Int, iconId: Int) {
-        val layout = findViewById<MaterialCardView>(layoutId)
+        val layout = findViewById<View>(layoutId) ?: return
         val answer = findViewById<TextView>(answerId)
         val icon = findViewById<ImageView>(iconId)
         layout.setOnClickListener {
@@ -201,6 +148,86 @@ class DashboardActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 answer.visibility = View.GONE
                 icon.setImageResource(R.drawable.ic_add)
             }
+        }
+    }
+
+    private fun startAutoScroll() {
+        val scrollRunnable = object : Runnable {
+            override fun run() {
+                if (isFinishing) return
+                
+                if (!isUserInteracting && System.currentTimeMillis() - lastInteractionTime > 1500) {
+                    val container = hsvActions.getChildAt(0)
+                    if (container != null) {
+                        val maxScroll = container.width - hsvActions.width
+                        if (maxScroll > 0) {
+                            // Boundary check to cover all cards
+                            if (hsvActions.scrollX >= maxScroll) {
+                                scrollDirection = -1
+                            } else if (hsvActions.scrollX <= 0) {
+                                scrollDirection = 1
+                            }
+                            // Move by 4 pixels for a smoother and faster experience
+                            hsvActions.scrollBy(scrollDirection * 4, 0)
+                        }
+                    }
+                }
+                scrollHandler.postDelayed(this, 20)
+            }
+        }
+        scrollHandler.postDelayed(scrollRunnable, 1000)
+    }
+
+    private fun updateVoiceIcon() {
+        ivVoiceAssistant.setImageResource(if (isVoiceEnabled) R.drawable.ic_volume_up else R.drawable.ic_volume_off)
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS && isVoiceEnabled) speakGuidance()
+    }
+
+    private fun speakGuidance() {
+        if (!isVoiceEnabled) return
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val isUrdu = sharedPref.getBoolean("USE_URDU", false)
+        if (isUrdu) {
+            tts?.setLanguage(Locale("ur", "PK"))
+            tts?.speak("Khush aamdeed. Ye aap ka dashboard hai.", TextToSpeech.QUEUE_FLUSH, null, "DashboardID")
+        } else {
+            tts?.setLanguage(Locale.US)
+            tts?.speak("Welcome to your dashboard. You can apply for pension or track your status here.", TextToSpeech.QUEUE_FLUSH, null, "DashboardID")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+        updateVoiceIcon()
+        updateApplicationStatus()
+    }
+
+    override fun onPause() { 
+        tts?.stop()
+        super.onPause() 
+    }
+    
+    override fun onDestroy() { 
+        scrollHandler.removeCallbacksAndMessages(null)
+        tts?.shutdown()
+        super.onDestroy() 
+    }
+
+    private fun updateApplicationStatus() {
+        val tvUpdateTitle = findViewById<TextView>(R.id.tvUpdateTitle)
+        val tvUpdateId = findViewById<TextView>(R.id.tvUpdateId)
+        val appData = userCnic?.let { dbHelper.getPensionApplication(it) }
+        if (appData != null) {
+            tvUpdateTitle.text = "Pension Application"
+            tvUpdateId.text = "#${appData["appId"]} - ${appData["status"]}"
+        } else {
+            tvUpdateTitle.text = "No current application"
+            tvUpdateId.text = "Apply for pension to see status here."
         }
     }
 }

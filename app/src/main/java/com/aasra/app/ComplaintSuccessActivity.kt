@@ -20,11 +20,15 @@ class ComplaintSuccessActivity : AppCompatActivity(), TextToSpeech.OnInitListene
     private lateinit var dbHelper: DatabaseHelper
     private var tts: TextToSpeech? = null
     private var ticketId: String = ""
+    private var isVoiceEnabled = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_complaint_success)
+
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
 
         dbHelper = DatabaseHelper(this)
         tts = TextToSpeech(this, this)
@@ -58,6 +62,8 @@ class ComplaintSuccessActivity : AppCompatActivity(), TextToSpeech.OnInitListene
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
+            if (!isVoiceEnabled) return
+
             val isUrdu = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getBoolean("USE_URDU", false)
             if (isUrdu) {
                 tts?.setLanguage(Locale("ur", "PK"))
@@ -67,6 +73,12 @@ class ComplaintSuccessActivity : AppCompatActivity(), TextToSpeech.OnInitListene
                 tts?.speak("Success! Your complaint has been submitted. Your ticket I D is $ticketId. You can track its progress by clicking the track my request button.", TextToSpeech.QUEUE_FLUSH, null, "SuccessTicketID")
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
     }
 
     override fun onDestroy() {

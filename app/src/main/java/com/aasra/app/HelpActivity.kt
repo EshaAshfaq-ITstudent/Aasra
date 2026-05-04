@@ -9,10 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.card.MaterialCardView
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -24,23 +21,29 @@ class HelpActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var userCnic: String? = null
     private var tts: TextToSpeech? = null
     private var userName: String = "User"
+    private var isVoiceEnabled = true
+    private lateinit var ivVoiceAssistant: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_help)
 
-        dbHelper = DatabaseHelper(this)
-        tts = TextToSpeech(this, this)
-        
         val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
         userCnic = sharedPref.getString("USER_CNIC", "")
         userName = sharedPref.getString("USER_NAME", "User") ?: "User"
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
-            insets
+        dbHelper = DatabaseHelper(this)
+        tts = TextToSpeech(this, this)
+
+        ivVoiceAssistant = findViewById(R.id.ivVoiceAssistant)
+        updateVoiceIcon()
+
+        ivVoiceAssistant.setOnClickListener {
+            isVoiceEnabled = !isVoiceEnabled
+            sharedPref.edit().putBoolean("VOICE_ENABLED", isVoiceEnabled).apply()
+            updateVoiceIcon()
+            if (isVoiceEnabled) speakGuidance() else tts?.stop()
         }
 
         findViewById<TextView>(R.id.tvHelpGreeting).text = "How can we assist you, $userName?"
@@ -75,21 +78,37 @@ class HelpActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
     }
 
+    private fun updateVoiceIcon() {
+        ivVoiceAssistant.setImageResource(if (isVoiceEnabled) R.drawable.ic_volume_up else R.drawable.ic_volume_off)
+    }
+
     override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-            val isUrdu = sharedPref.getBoolean("USE_URDU", false)
-            
-            if (isUrdu) {
-                tts?.setLanguage(Locale("ur", "PK"))
-                val message = "Help center mein khush aamdeed. Yahan aap hamaray assistant se baat kar saktay hain, nayi shikayat jama kar saktay hain ya purani tickets dekh saktay hain."
-                tts?.speak(message, TextToSpeech.QUEUE_FLUSH, null, "HelpID")
-            } else {
-                tts?.setLanguage(Locale.US)
-                val message = "Welcome to the help center. You can chat with our assistant, submit a new support request, or track your existing tickets below."
-                tts?.speak(message, TextToSpeech.QUEUE_FLUSH, null, "HelpID")
-            }
+        if (status == TextToSpeech.SUCCESS && isVoiceEnabled) {
+            speakGuidance()
         }
+    }
+
+    private fun speakGuidance() {
+        if (!isVoiceEnabled) return
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val isUrdu = sharedPref.getBoolean("USE_URDU", false)
+        
+        if (isUrdu) {
+            tts?.setLanguage(Locale("ur", "PK"))
+            val message = "Help center mein khush aamdeed. Yahan aap hamaray assistant se baat kar saktay hain, nayi shikayat jama kar saktay hain ya purani tickets dekh saktay hain."
+            tts?.speak(message, TextToSpeech.QUEUE_FLUSH, null, "HelpID")
+        } else {
+            tts?.setLanguage(Locale.US)
+            val message = "Welcome to the help center. You can chat with our assistant, submit a new support request, or track your existing tickets below."
+            tts?.speak(message, TextToSpeech.QUEUE_FLUSH, null, "HelpID")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+        updateVoiceIcon()
     }
 
     override fun onPause() {
@@ -119,8 +138,9 @@ class HelpActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             tickets.take(3).forEach { ticket ->
                 val itemView = LayoutInflater.from(this).inflate(R.layout.item_ticket_history, container, false)
                 
+                val ticketId = ticket["ticketId"] ?: ""
                 itemView.findViewById<TextView>(R.id.tvTicketTitle).text = ticket["issueType"]
-                itemView.findViewById<TextView>(R.id.tvTicketId).text = "#${ticket["ticketId"]}"
+                itemView.findViewById<TextView>(R.id.tvTicketId).text = "#$ticketId"
                 itemView.findViewById<TextView>(R.id.tvTicketStatus).text = ticket["status"]
                 itemView.findViewById<TextView>(R.id.tvTicketDesc).text = ticket["description"]
                 
@@ -133,6 +153,12 @@ class HelpActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     "Resolved" -> statusText.setTextColor(android.graphics.Color.parseColor("#00A651"))
                     "Under Review" -> statusText.setTextColor(android.graphics.Color.parseColor("#FF9800"))
                     else -> statusText.setTextColor(android.graphics.Color.parseColor("#2196F3"))
+                }
+
+                itemView.setOnClickListener {
+                    val intent = Intent(this, TrackTicketActivity::class.java)
+                    intent.putExtra("TICKET_ID", ticketId)
+                    startActivity(intent)
                 }
 
                 container.addView(itemView)

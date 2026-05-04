@@ -5,20 +5,21 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import java.util.Locale
 
-class DocumentVaultActivity : AppCompatActivity() {
+class DocumentVaultActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private lateinit var dbHelper: DatabaseHelper
     private var userCnic: String? = null
@@ -26,23 +27,38 @@ class DocumentVaultActivity : AppCompatActivity() {
     private lateinit var adapter: DocumentAdapter
     private lateinit var rvDocuments: RecyclerView
     private lateinit var layoutEmpty: View
+    
+    private var tts: TextToSpeech? = null
+    private var isVoiceEnabled = true
+    private lateinit var ivVoiceAssistant: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_document_vault)
 
         dbHelper = DatabaseHelper(this)
         val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
         userCnic = sharedPref.getString("USER_CNIC", "")
 
+        tts = TextToSpeech(this, this)
+        
         rvDocuments = findViewById(R.id.rvDocuments)
         layoutEmpty = findViewById(R.id.layoutEmpty)
         val btnBack = findViewById<ImageView>(R.id.btnBack)
         val btnAddDoc = findViewById<MaterialButton>(R.id.btnAddDoc)
+        ivVoiceAssistant = findViewById(R.id.ivVoiceAssistant)
 
+        updateVoiceIcon()
         setupRecyclerView()
         loadDocuments()
+
+        ivVoiceAssistant.setOnClickListener {
+            isVoiceEnabled = !isVoiceEnabled
+            sharedPref.edit().putBoolean("VOICE_ENABLED", isVoiceEnabled).apply()
+            updateVoiceIcon()
+            if (isVoiceEnabled) speakGuidance() else tts?.stop()
+        }
 
         btnBack.setOnClickListener { finish() }
 
@@ -97,6 +113,46 @@ class DocumentVaultActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateVoiceIcon() {
+        ivVoiceAssistant.setImageResource(if (isVoiceEnabled) R.drawable.ic_volume_up else R.drawable.ic_volume_off)
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS && isVoiceEnabled) {
+            speakGuidance()
+        }
+    }
+
+    private fun speakGuidance() {
+        if (!isVoiceEnabled) return
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val isUrdu = sharedPref.getBoolean("USE_URDU", false)
+        if (isUrdu) {
+            tts?.setLanguage(Locale("ur", "PK"))
+            tts?.speak("Yeh aap ka Document Vault hai. Yahan aap apnay zaroori kaghazaat mehfooz kar saktay hain.", TextToSpeech.QUEUE_FLUSH, null, "VaultID")
+        } else {
+            tts?.setLanguage(Locale.US)
+            tts?.speak("This is your Document Vault. You can securely store your important documents here.", TextToSpeech.QUEUE_FLUSH, null, "VaultID")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+        updateVoiceIcon()
+    }
+
+    override fun onPause() {
+        tts?.stop()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        tts?.shutdown()
+        super.onDestroy()
+    }
+
     class DocumentAdapter(private val items: List<Map<String, String>>) : RecyclerView.Adapter<DocumentAdapter.ViewHolder>() {
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val title: TextView = view.findViewById(R.id.tvDocName)
@@ -115,14 +171,6 @@ class DocumentVaultActivity : AppCompatActivity() {
             holder.title.text = item["name"]
             holder.subtitle.text = type
             
-            // Set icon based on type
-            if (type.contains("image")) {
-                // You might want to use a specific icon for images
-                // holder.icon.setImageResource(R.drawable.ic_image) 
-            } else if (type.contains("pdf")) {
-                // holder.icon.setImageResource(R.drawable.ic_pdf)
-            }
-
             holder.itemView.setOnClickListener {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)

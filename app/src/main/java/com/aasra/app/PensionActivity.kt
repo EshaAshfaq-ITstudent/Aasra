@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +18,8 @@ class PensionActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var dbHelper: DatabaseHelper
     private var userCnic: String? = null
     private var tts: TextToSpeech? = null
+    private lateinit var ivVoiceAssistant: ImageView
+    private var isVoiceEnabled = true
     
     private var cnicFrontUri: Uri? = null
     private var cnicBackUri: Uri? = null
@@ -46,6 +49,19 @@ class PensionActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         dbHelper = DatabaseHelper(this)
         tts = TextToSpeech(this, this)
         userCnic = intent.getStringExtra("USER_CNIC")
+
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+        
+        ivVoiceAssistant = findViewById(R.id.ivVoiceAssistant)
+        updateVoiceIcon()
+
+        ivVoiceAssistant.setOnClickListener {
+            isVoiceEnabled = !isVoiceEnabled
+            sharedPref.edit().putBoolean("VOICE_ENABLED", isVoiceEnabled).apply()
+            updateVoiceIcon()
+            if (isVoiceEnabled) speakGuidance() else tts?.stop()
+        }
 
         val etName = findViewById<EditText>(R.id.etPensionName)
         val etPhone = findViewById<EditText>(R.id.etPensionPhone)
@@ -113,35 +129,75 @@ class PensionActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             )
 
             if (success) {
-                val isUrdu = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getBoolean("USE_URDU", false)
-                if (isUrdu) {
-                    tts?.speak("Aap ki application jama ho gayi hai. Application I D hai $appId", TextToSpeech.QUEUE_FLUSH, null, "SuccessID")
-                } else {
-                    tts?.speak("Your pension application has been submitted successfully. Your Application I D is $appId", TextToSpeech.QUEUE_FLUSH, null, "SuccessID")
-                }
+                val isUrdu = sharedPref.getBoolean("USE_URDU", false)
                 Toast.makeText(this, "Application Submitted! ID: $appId", Toast.LENGTH_LONG).show()
-                finish()
+
+                if (isVoiceEnabled) {
+                    tts?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                        override fun onStart(utteranceId: String?) {}
+                        override fun onDone(utteranceId: String?) {
+                            runOnUiThread { finish() }
+                        }
+                        override fun onError(utteranceId: String?) {
+                            runOnUiThread { finish() }
+                        }
+                    })
+
+                    val params = Bundle()
+                    params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "SuccessID")
+                    
+                    if (isUrdu) {
+                        tts?.setLanguage(Locale("ur", "PK"))
+                        tts?.speak("Aap ki application jama ho gayi hai. Application I D hai $appId", TextToSpeech.QUEUE_FLUSH, params, "SuccessID")
+                    } else {
+                        tts?.setLanguage(Locale.US)
+                        tts?.speak("Your pension application has been submitted successfully. Your Application I D is $appId", TextToSpeech.QUEUE_FLUSH, params, "SuccessID")
+                    }
+                } else {
+                    finish()
+                }
             } else {
                 Toast.makeText(this, "Failed to submit application", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    private fun updateVoiceIcon() {
+        ivVoiceAssistant.setImageResource(if (isVoiceEnabled) R.drawable.ic_volume_up else R.drawable.ic_volume_off)
+    }
+
     override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            val isUrdu = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getBoolean("USE_URDU", false)
-            if (isUrdu) {
-                tts?.setLanguage(Locale("ur", "PK"))
-                tts?.speak("Meherbaani karke apni tafseelaat darj karein aur se en i si ki dono sides upload karein.", TextToSpeech.QUEUE_FLUSH, null, "PensionID")
-            } else {
-                tts?.setLanguage(Locale.US)
-                tts?.speak("Please provide your personal details and upload both sides of your C N I C card.", TextToSpeech.QUEUE_FLUSH, null, "PensionID")
-            }
+        if (status == TextToSpeech.SUCCESS && isVoiceEnabled) {
+            speakGuidance()
         }
     }
 
-    override fun onDestroy() {
+    private fun speakGuidance() {
+        if (!isVoiceEnabled) return
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val isUrdu = sharedPref.getBoolean("USE_URDU", false)
+        if (isUrdu) {
+            tts?.setLanguage(Locale("ur", "PK"))
+            tts?.speak("Meherbaani karke apni tafseelaat darj karein aur se en i si ki dono sides upload karein.", TextToSpeech.QUEUE_FLUSH, null, "PensionID")
+        } else {
+            tts?.setLanguage(Locale.US)
+            tts?.speak("Please provide your personal details and upload both sides of your C N I C card.", TextToSpeech.QUEUE_FLUSH, null, "PensionID")
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+        updateVoiceIcon()
+    }
+
+    override fun onPause() {
         tts?.stop()
+        super.onPause()
+    }
+
+    override fun onDestroy() {
         tts?.shutdown()
         super.onDestroy()
     }

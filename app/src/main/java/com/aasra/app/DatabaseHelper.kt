@@ -137,6 +137,30 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         return name
     }
 
+    fun getUserDetails(cnic: String): Map<String, String>? {
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_USERS, null, "$COLUMN_CNIC=?", arrayOf(cnic), null, null, null)
+        var user: Map<String, String>? = null
+        if (cursor.moveToFirst()) {
+            user = mapOf(
+                "name" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME)),
+                "phone" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PHONE)),
+                "cnic" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_CNIC))
+            )
+        }
+        cursor.close()
+        return user
+    }
+
+    fun updateUser(cnic: String, name: String, phone: String): Boolean {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(COLUMN_NAME, name)
+        values.put(COLUMN_PHONE, phone)
+        val result = db.update(TABLE_USERS, values, "$COLUMN_CNIC=?", arrayOf(cnic))
+        return result > 0
+    }
+
     fun addPensionApplication(appId: String, userCnic: String, name: String, phone: String, dob: String, gender: String, type: String, dept: String, retireDate: String): Boolean {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -217,6 +241,24 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 "issueType" to cursor.getString(1),
                 "status" to cursor.getString(2),
                 "timestamp" to cursor.getLong(3).toString()
+            )
+        }
+        cursor.close()
+        return ticketData
+    }
+
+    fun getTicketDetails(ticketId: String): Map<String, String>? {
+        val db = this.readableDatabase
+        val cursor = db.query(TABLE_TICKETS, null, "$COLUMN_TICKET_ID=?", arrayOf(ticketId), null, null, null)
+        var ticketData: Map<String, String>? = null
+        if (cursor.moveToFirst()) {
+            ticketData = mapOf(
+                "ticketId" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TICKET_ID)),
+                "issueType" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_T_ISSUE_TYPE)),
+                "description" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_T_DESCRIPTION)),
+                "status" to cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_T_STATUS)),
+                "timestamp" to cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_T_TIMESTAMP)).toString(),
+                "attachment" to (cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_T_ATTACHMENT)) ?: "")
             )
         }
         cursor.close()

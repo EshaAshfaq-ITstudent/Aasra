@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="100dp">
+        android:paddingBottom="150dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp">
 
-                <!-- Speaker Icon (Replaced Sidebar Sign) -->
+                <!-- Speaker Icon -->
                 <ImageView
                     android:id="@+id/ivVoiceAssistant"
                     android:layout_width="44dp"
@@ -99,9 +99,12 @@
                         android:layout_width="220dp"
                         android:layout_height="120dp"
                         android:layout_marginEnd="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
-                        app:cardBackgroundColor="@color/white">
+                        app:cardBackgroundColor="@color/white"
+                        app:strokeWidth="0dp">
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIcon1" android:orientation="vertical">
                                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Apply For Pension" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
@@ -116,9 +119,12 @@
                         android:layout_width="220dp"
                         android:layout_height="120dp"
                         android:layout_marginEnd="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
-                        app:cardBackgroundColor="@color/white">
+                        app:cardBackgroundColor="@color/white"
+                        app:strokeWidth="0dp">
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIcon2" android:orientation="vertical">
                                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Track Status" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
@@ -128,15 +134,17 @@
                         </RelativeLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Document Vault Card -->
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardVault"
                         android:layout_width="220dp"
                         android:layout_height="120dp"
                         android:layout_marginEnd="16dp"
+                        android:clickable="true"
+                        android:focusable="true"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
-                        app:cardBackgroundColor="@color/white">
+                        app:cardBackgroundColor="@color/white"
+                        app:strokeWidth="0dp">
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIconVault" android:orientation="vertical">
                                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Document Vault" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
@@ -150,9 +158,12 @@
                         android:id="@+id/cardComplaint"
                         android:layout_width="220dp"
                         android:layout_height="120dp"
+                        android:clickable="true"
+                        android:focusable="true"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="2dp"
-                        app:cardBackgroundColor="@color/white">
+                        app:cardBackgroundColor="@color/white"
+                        app:strokeWidth="0dp">
                         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
                             <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivIcon3" android:orientation="vertical">
                                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Complaints" android:textColor="#1A1A1A" android:textSize="16sp" android:textStyle="bold" />
@@ -179,9 +190,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F2EFE9">
+                app:cardBackgroundColor="#F2EFE9"
+                app:strokeWidth="0dp"
+                app:rippleColor="#20000000">
                 <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="20dp">
                     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical">
                         <TextView android:id="@+id/tvUpdateTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No current application" android:textColor="#1A1A1A" android:textSize="17sp" android:textStyle="bold" />
@@ -207,9 +222,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F2EFE9">
+                app:cardBackgroundColor="#F2EFE9"
+                app:strokeWidth="0dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivExpand1" android:text="Can I check my application status?" android:textColor="#1A1A1A" android:textSize="15sp" android:textStyle="bold" />
@@ -225,15 +243,81 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:cardBackgroundColor="#F2EFE9">
+                app:cardBackgroundColor="#F2EFE9"
+                app:strokeWidth="0dp">
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
                     <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
                         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivExpand2" android:text="What documents are required?" android:textColor="#1A1A1A" android:textSize="15sp" android:textStyle="bold" />
                         <ImageView android:id="@+id/ivExpand2" android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_add" android:contentDescription="Expand" app:tint="#1A1A1A" />
                     </RelativeLayout>
                     <TextView android:id="@+id/tvAnswer2" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="You will need your CNIC, Pension Book copies, and valid Bank Account details for verification." android:textColor="#606060" android:textSize="14sp" android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- FAQ 3 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/faqItem3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#F2EFE9"
+                app:strokeWidth="0dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivExpand3" android:text="How long does the process take?" android:textColor="#1A1A1A" android:textSize="15sp" android:textStyle="bold" />
+                        <ImageView android:id="@+id/ivExpand3" android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_add" android:contentDescription="Expand" app:tint="#1A1A1A" />
+                    </RelativeLayout>
+                    <TextView android:id="@+id/tvAnswer3" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Typically, the verification process takes 15-30 working days after successful document submission." android:textColor="#606060" android:textSize="14sp" android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- FAQ 4 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/faqItem4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#F2EFE9"
+                app:strokeWidth="0dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivExpand4" android:text="Can I apply for someone else?" android:textColor="#1A1A1A" android:textSize="15sp" android:textStyle="bold" />
+                        <ImageView android:id="@+id/ivExpand4" android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_add" android:contentDescription="Expand" app:tint="#1A1A1A" />
+                    </RelativeLayout>
+                    <TextView android:id="@+id/tvAnswer4" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Yes, you can assist a senior by providing their correct details and documents through your account." android:textColor="#606060" android:textSize="14sp" android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- FAQ 5 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/faqItem5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#F2EFE9"
+                app:strokeWidth="0dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentStart="true" android:layout_centerVertical="true" android:layout_toStartOf="@id/ivExpand5" android:text="Is my information secure?" android:textColor="#1A1A1A" android:textSize="15sp" android:textStyle="bold" />
+                        <ImageView android:id="@+id/ivExpand5" android:layout_width="24dp" android:layout_height="24dp" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:src="@drawable/ic_add" android:contentDescription="Expand" app:tint="#1A1A1A" />
+                    </RelativeLayout>
+                    <TextView android:id="@+id/tvAnswer5" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="Absolutely. Aasra uses encrypted storage to ensure all your personal data and documents remain safe." android:textColor="#606060" android:textSize="14sp" android:visibility="gone" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -245,7 +329,9 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
         app:cardCornerRadius="36dp"
         app:cardElevation="8dp"
         app:strokeWidth="0dp">

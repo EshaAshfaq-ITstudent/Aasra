@@ -63,7 +63,11 @@ class SignupActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val isUrdu = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getBoolean("USE_URDU", false)
+            val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+            val isVoiceEnabled = sharedPref.getBoolean("VOICE_ENABLED", true)
+            if (!isVoiceEnabled) return
+
+            val isUrdu = sharedPref.getBoolean("USE_URDU", false)
             if (isUrdu) {
                 tts?.setLanguage(Locale("ur", "PK"))
                 tts?.speak("Meherbaani karke apna naam, phone number aur tera hindson ka se en i si number darj karein.", TextToSpeech.QUEUE_FLUSH, null, "SignupID")
